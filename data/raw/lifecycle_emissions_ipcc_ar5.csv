@@ -1,0 +1,6 @@
+technology,group,min_gco2e_kwh,median_gco2e_kwh,max_gco2e_kwh,source,notes
+Nuclear,low-carbon,3.7,12,110,IPCC AR5 WGIII Annex III,"Lifecycle greenhouse-gas emissions; values commonly reported as minimum, median and maximum."
+Wind onshore,low-carbon,7,11,56,IPCC AR5 WGIII Annex III,"Lifecycle greenhouse-gas emissions; values commonly reported as minimum, median and maximum."
+Wind offshore,low-carbon,8,12,35,IPCC AR5 WGIII Annex III,"Lifecycle greenhouse-gas emissions; values commonly reported as minimum, median and maximum."
+Solar PV rooftop,low-carbon,26,41,60,IPCC AR5 WGIII Annex III,"Lifecycle greenhouse-gas emissions; values commonly reported as minimum, median and maximum."
+Solar PV utility,low-carbon,18,48,180,IPCC AR5 WGIII Annex III,"Lifecycle greenhouse-gas emissions; values commonly reported as minimum, median and maximum."

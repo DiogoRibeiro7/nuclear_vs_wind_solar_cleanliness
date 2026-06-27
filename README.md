@@ -37,11 +37,13 @@ A more defensible sentence would be:
 ```text
 .
 ├── data/
+│   ├── raw/
+│   │   └── lifecycle_emissions_ipcc_ar5.csv
+│   ├── processed/
+│   │   └── lifecycle_emissions_normalized.csv
 │   └── lifecycle_emissions_ipcc_ar5.csv
 ├── notebooks/
 │   └── 01_lifecycle_rebuttal.ipynb
-├── prompts/
-│   └── agent_prompts.md
 ├── reports/
 │   └── .gitkeep
 ├── scripts/
@@ -90,6 +92,14 @@ Or with Poetry:
 poetry install
 ```
 
+## Data ingestion tasks
+
+```bash
+python scripts/ingest_lifecycle_datasets.py
+```
+
+This builds `data/processed/lifecycle_emissions_normalized.csv` from files under `data/raw`.
+
 ## Run the analysis
 
 ```bash
@@ -107,6 +117,17 @@ reports/probability_matrix.csv
 reports/summary.md
 reports/lifecycle_ranges.png
 reports/probability_matrix.png
+reports/bootstrap_ci.csv
+```
+
+## Workflow bundle
+
+```bash
+python scripts/run_analysis_suite.py
+python scripts/run_multimetric_analysis.py
+python scripts/run_portugal_scenario.py
+python scripts/run_claim_classifier.py
+python scripts/generate_social_article.py
 ```
 
 ## Run tests

@@ -13,6 +13,7 @@ from energy_cleanliness.analysis import (
     simulate_uncertainty,
 )
 from energy_cleanliness.data import load_lifecycle_data
+from energy_cleanliness.claim_classifier import classify_claim
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = PROJECT_ROOT / "data" / "lifecycle_emissions_ipcc_ar5.csv"
@@ -67,3 +68,29 @@ def test_simulate_uncertainty_rejects_non_positive_draws() -> None:
         assert "draws" in str(error)
     else:
         raise AssertionError("Expected ValueError for non-positive draws")
+
+
+def test_classifier_covers_english_and_portuguese_claims() -> None:
+    """Short PT/EN examples should map to the required five classifier labels."""
+    en_cases = [
+        ("Nuclear has 12 gCO2e/kWh lifecycle emissions.", "factual_and_testable"),
+        ("Nuclear is cleaner than wind.", "ambiguous because of undefined metrics"),
+        ("This claim is always better and never worse than everything else.", "overconfident because uncertainty is ignored"),
+        ("This is a myth: nuclear is the only clean option.", "misleading framing"),
+        ("Nuclear is the future of clean energy.", "unsupported by cited data"),
+    ]
+    pt_cases = [
+        ("Nuclear tem 12 gCO2e/kWh no ciclo de vida.", "factual_and_testable"),
+        ("Nuclear é mais limpo que solar.", "ambiguous because of undefined metrics"),
+        ("A energia nuclear será sempre a melhor e nunca pior.", "overconfident because uncertainty is ignored"),
+        ("O mito diz que nuclear é a opção perfeita e sem falhas.", "misleading framing"),
+        ("Energia nuclear é a solução definitiva para o país.", "unsupported by cited data"),
+    ]
+
+    for text, expected_label in en_cases:
+        result = classify_claim(text)
+        assert result.label == expected_label
+
+    for text, expected_label in pt_cases:
+        result = classify_claim(text)
+        assert result.label == expected_label

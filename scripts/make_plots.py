@@ -3,23 +3,30 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import pandas as pd
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_PATH = PROJECT_ROOT / "src"
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 
 from energy_cleanliness.analysis import estimate_pairwise_probabilities, simulate_uncertainty
 from energy_cleanliness.data import load_lifecycle_data
 from energy_cleanliness.plotting import plot_lifecycle_ranges, plot_probability_matrix
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = PROJECT_ROOT / "data" / "lifecycle_emissions_ipcc_ar5.csv"
+DATA_PATH = PROJECT_ROOT / "data" / "processed" / "lifecycle_emissions_normalized.csv"
+LEGACY_DATA_PATH = PROJECT_ROOT / "data" / "lifecycle_emissions_ipcc_ar5.csv"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 
 
 def main() -> None:
     """Create plots and save them to the reports directory."""
     REPORTS_DIR.mkdir(exist_ok=True)
-    data = load_lifecycle_data(DATA_PATH)
+    data_path = DATA_PATH if DATA_PATH.exists() else LEGACY_DATA_PATH
+    data = load_lifecycle_data(data_path)
 
     probability_csv = REPORTS_DIR / "probability_matrix.csv"
     if probability_csv.exists():
