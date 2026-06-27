@@ -1,0 +1,75 @@
+name: Apply labels from issue template
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  apply-labels:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add selected issue labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || "";
+            const extract = (heading) => {
+              const re = new RegExp(`^###\\s*${heading}\\s*$([\\s\\S]*?)^###`, "m");
+              const m = body.match(re);
+              if (!m) return null;
+              const lines = m[1].trim().split("\n").filter(Boolean);
+              return lines.length ? lines[0].trim() : null;
+            };
+
+            const mappings = {
+              type: {
+                bug: "type:bug",
+                documentation: "type:documentation",
+                feature: "type:feature",
+                refactor: "type:refactor",
+                investigation: "type:investigation",
+              },
+              status: {
+                triage: "status:triage",
+                ready: "status:ready",
+                "in-progress": "status:in-progress",
+                blocked: "status:blocked",
+                review: "status:review",
+              },
+              priority: {
+                critical: "priority:critical",
+                high: "priority:high",
+                medium: "priority:medium",
+                low: "priority:low",
+              },
+            };
+
+            const toLabel = (section, field) => {
+              if (!field) return null;
+              const key = field.toLowerCase().trim();
+              return mappings[section]?.[key] || null;
+            };
+
+            const type = toLabel("type", extract("Type"));
+            const status = toLabel("status", extract("Status"));
+            const priority = toLabel("priority", extract("Priority"));
+            const wanted = [type, status, priority].filter(Boolean);
+
+            if (wanted.length === 0) {
+              console.log("No valid issue metadata found in template body.");
+              return;
+            }
+
+            const issueNumber = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const unique = [...new Set(wanted)];
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              labels: unique,
+            });

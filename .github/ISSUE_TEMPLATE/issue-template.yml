@@ -1,0 +1,65 @@
+name: General issue
+description: Report bugs, request work, and track tasks with required triage metadata.
+title: "[Type] "
+labels:
+  - status:triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please use the selectors below to classify every issue.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief summary of what should be changed or fixed.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Include reproduction steps, data, or relevant files.
+    validations:
+      required: false
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: Pick exactly one issue type.
+      multiple: false
+      options:
+        - bug
+        - documentation
+        - feature
+        - refactor
+        - investigation
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      description: Pick exactly one current status.
+      multiple: false
+      options:
+        - triage
+        - ready
+        - in-progress
+        - blocked
+        - review
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Pick exactly one priority level.
+      multiple: false
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
