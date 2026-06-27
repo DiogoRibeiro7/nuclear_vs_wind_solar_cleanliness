@@ -16,7 +16,7 @@ jobs:
           script: |
             const body = context.payload.issue.body || "";
             const extract = (heading) => {
-              const re = new RegExp(`^###\\s*${heading}\\s*$([\\s\\S]*?)^###`, "m");
+              const re = new RegExp(`^###\\s*${heading}\\s*$([\\s\\S]*?)(?=^###|\\z)`, "m");
               const m = body.match(re);
               if (!m) return null;
               const lines = m[1].trim().split("\n").filter(Boolean);
