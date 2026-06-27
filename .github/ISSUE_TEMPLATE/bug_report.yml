@@ -1,0 +1,53 @@
+name: Bug report
+description: Report a reproducible problem quickly.
+title: "[bug] "
+labels:
+  - type:bug
+  - status:triage
+  - priority:medium
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for reproducible bugs. Include enough details to reproduce the issue.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the problem and expected behavior.
+      placeholder: Steps plus observed vs expected outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: |
+        List exact commands, inputs, and data files used.
+      placeholder: |
+        1. Run `...`
+        2. Open `...`
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Environment and details
+      description: Python version, OS, key package versions, error trace.
+      placeholder: Python 3.11, Windows 11, etc.
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Choose one priority level.
+      multiple: false
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
