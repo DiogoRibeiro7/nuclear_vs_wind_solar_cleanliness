@@ -148,9 +148,16 @@ Recommended extensions:
 - NREL / Open Energy Data Initiative lifecycle electricity generation emissions datasets.
 - Our World in Data, death rates from energy production per TWh.
 
+Additional outputs for the wider interpretation run:
+
+- `reports/cleanliness_scores.csv`
+- `reports/cleanliness_sensitivity.csv`
+- `reports/cleanliness_frontier.csv`
+- `reports/multimetric_summary.md`
+
 ## Interpretation note
 
-This project only tests a carbon-focused interpretation of "clean". A serious cleanliness score should also include:
+This project now includes a broader cleanliness profile beyond carbon:
 
 - lifecycle greenhouse-gas emissions;
 - direct deaths and air-pollution deaths per TWh;
@@ -162,4 +169,4 @@ This project only tests a carbon-focused interpretation of "clean". A serious cl
 - capacity factor and grid integration;
 - cost and financing risk.
 
-Under that wider definition, it becomes even harder to defend a universal statement like "nuclear is cleaner than wind or solar". The correct conclusion is more nuanced: nuclear, wind and solar are all part of the low-carbon electricity family, but none of them universally dominates the others across all cleanliness metrics.
+Under that wider definition there is still no universal winner. Nuclear, wind and solar are all part of the low-carbon electricity family, and which option is cleaner depends on the metric and weighting choices.

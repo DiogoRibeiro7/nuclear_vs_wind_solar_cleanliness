@@ -1,0 +1,6 @@
+technology,direct_deaths_per_twh,air_pollution_deaths_per_twh,waste_persistence,water_use,land_use,material_intensity,construction_time,capacity_factor,grid_integration_score,levelized_cost,financing_risk
+Nuclear,0.022,0.007,12,14,1.8,1.4,6.5,0.90,0.78,108,55,0.56
+Wind onshore,0.030,0.022,0.8,0.15,0.42,0.55,2.0,0.33,0.74,55,42,0.42
+Wind offshore,0.029,0.021,0.8,0.20,0.50,0.65,3.2,0.45,0.68,95,46,0.46
+Solar PV rooftop,0.065,0.030,0.75,0.04,0.31,0.62,2.0,0.22,0.54,110,60,0.60
+Solar PV utility,0.055,0.028,0.85,0.05,0.25,0.58,1.6,0.29,0.58,95,56,0.56

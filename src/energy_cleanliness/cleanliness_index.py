@@ -30,17 +30,23 @@ def normalize_cleanliness_matrix(
     data: pd.DataFrame,
     metrics: Iterable[str],
     method: str = "minmax",
+    higher_is_better: Iterable[str] = (),
 ) -> pd.DataFrame:
-    """Normalize a set of metrics where lower values are cleaner."""
+    """Normalize a set of metrics into a cleaner-is-higher score."""
     matrix = pd.DataFrame(index=data.index)
     norm_fn = minmax_normalize if method == "minmax" else zscore_normalize
+    higher_set = set(higher_is_better)
     for metric in metrics:
         if metric not in data.columns:
             raise ValueError(f"Missing metric column: {metric}")
+
         normalized = norm_fn(data[metric])
-        matrix[metric] = 1.0 - normalized
         if method == "zscore":
-            matrix[metric] = matrix[metric] / matrix[metric].abs().max() if matrix[metric].abs().max() else matrix[metric]
+            axis_max = float(normalized.abs().max())
+            normalized = normalized / axis_max if axis_max else normalized
+            matrix[metric] = normalized if metric in higher_set else -normalized
+            continue
+        matrix[metric] = normalized if metric in higher_set else 1.0 - normalized
     return matrix
 
 
@@ -49,9 +55,10 @@ def weighted_cleanliness_score(
     metrics: Iterable[str],
     weights: dict[str, float] | None = None,
     method: str = "minmax",
+    higher_is_better: Iterable[str] = (),
 ) -> pd.DataFrame:
     """Compute user-weighted cleanliness scores from multiple metrics."""
-    normalized = normalize_cleanliness_matrix(data, metrics, method=method)
+    normalized = normalize_cleanliness_matrix(data, metrics, method=method, higher_is_better=higher_is_better)
     if weights is None:
         weight_value = 1.0 / len(normalized.columns)
         weights = {column: weight_value for column in normalized.columns}
@@ -74,16 +81,32 @@ def pareto_frontier(
     data: pd.DataFrame,
     metrics: Iterable[str],
     minimize: bool = True,
+    higher_is_better: Iterable[str] = (),
 ) -> pd.DataFrame:
     """Return rows on the Pareto frontier for the selected metrics."""
     scores = pd.to_numeric(data[metrics], errors="coerce")
+    higher_set = set(higher_is_better)
     frontier_indices = []
     for i, row in scores.iterrows():
         candidates = scores.copy()
         if minimize:
-            improved = (candidates <= row).all(axis=1) & (candidates < row).any(axis=1)
+            better_or_equal = (candidates <= row).all(axis=1)
+            strictly_better = (candidates < row).any(axis=1)
         else:
-            improved = (candidates >= row).all(axis=1) & (candidates > row).any(axis=1)
+            # metrics in higher_set are treated as "larger is cleaner"
+            better_or_equal = np.ones(len(candidates), dtype=bool)
+            strictly_better = np.zeros(len(candidates), dtype=bool)
+            for metric in metrics:
+                candidate_values = candidates[metric]
+                row_value = row[metric]
+                if metric in higher_set:
+                    better_or_equal = better_or_equal & (candidate_values >= row_value)
+                    strictly_better = strictly_better | (candidate_values > row_value)
+                else:
+                    better_or_equal = better_or_equal & (candidate_values <= row_value)
+                    strictly_better = strictly_better | (candidate_values < row_value)
+            strictly_better = strictly_better & better_or_equal
+        improved = better_or_equal & strictly_better
         if not improved.any():
             frontier_indices.append(i)
     return data.loc[frontier_indices].copy().reset_index(drop=True)
@@ -95,13 +118,14 @@ def sensitivity_analysis(
     method: str = "minmax",
     samples: int = 1_000,
     seed: int = 42,
+    higher_is_better: Iterable[str] = (),
 ) -> pd.DataFrame:
     """Monte Carlo weight perturbation over user-defined weights."""
     rng = np.random.default_rng(seed)
     technologies = data["technology"].tolist()
     samples_matrix = []
 
-    normalized = normalize_cleanliness_matrix(data, metrics, method=method)
+    normalized = normalize_cleanliness_matrix(data, metrics, method=method, higher_is_better=higher_is_better)
     metric_columns = list(normalized.columns)
     n_metrics = len(metric_columns)
 

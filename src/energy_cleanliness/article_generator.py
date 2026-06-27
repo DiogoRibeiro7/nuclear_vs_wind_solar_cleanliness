@@ -6,14 +6,14 @@ from pathlib import Path
 
 
 def build_cleanliness_article(summary_text: str, image_refs: list[str] | None = None) -> str:
-    """Build a sober LinkedIn/Medium-ready article draft."""
+    """Build a short English draft for social publication."""
     image_refs = image_refs or []
     figure_lines = [f"- {path}" for path in image_refs]
     figure_block = "\n".join(figure_lines)
     if figure_block:
         figure_block = f"\n\nFigures:\n{figure_block}"
 
-    return f"""# Reading the nuclear vs. wind vs. solar claim through data\n\n{summary_text}\n\n## What this analysis does and does not claim\n\nThe result is not a political verdict. It is a comparison across lifecycle carbon intensity with uncertainty shown.\nIt is a statement that "cleaner" needs explicit metrics and context because carbon, safety, land use, and cost do not move in lockstep.\n\n{figure_block}\n\n## Caveats\n\n- Some data sources report summary statistics only.\n- Uncertainty is wide for life-cycle literature values.\n- Broader environmental cleanliness requires more metrics than carbon alone.\n""".strip()
+    return f"""# Reading the nuclear vs. wind vs. solar claim through data\n\n{summary_text}\n\n## What this analysis does and does not claim\n\nThe result is not a political verdict. It is a comparison with uncertainty shown.\nIt is a statement that "cleaner" is not one metric, and the answer changes when deaths, waste, water, land, materials, grid integration, cost, and financing risk are included.\n\n{figure_block}\n\n## Caveats\n\n- Some data sources report summary statistics only.\n- Uncertainty is wide for life-cycle literature values.\n- The wider-metric profile is an explicit, documented proxy set and not a final legal or engineering standard.\n""".strip()
 
 
 def build_portuguese_draft(summary_text: str, image_refs: list[str] | None = None) -> str:
@@ -24,7 +24,7 @@ def build_portuguese_draft(summary_text: str, image_refs: list[str] | None = Non
     if figure_block:
         figure_block = f"\n\nFiguras:\n{figure_block}"
 
-    return f"""# Análise do argumento sobre energia nuclear, eólica e solar\n\n{summary_text}\n\nEm vez de reduzir a discussão a uma palavra, o resultado mostra:\n- Nuclear, eólica e solar são opções de baixa emissão no ciclo de vida.\n- A afirmação \"mais limpa\" é dependente do indicador usado.\n- Medições de incerteza são essenciais para não confundir média com certeza.\n\n{figure_block}\n\nLimitação: sem mais métricas (custos, uso do solo, água, resíduos), não existe uma conclusão universal sobre \"limpeza\".\n""".strip()
+    return f"""# Análise do argumento sobre energia nuclear, eólica e solar\n\n{summary_text}\n\nEm vez de reduzir a discussão a uma palavra, o resultado mostra:\n- Nuclear, eólica e solar são opções de baixa emissão no ciclo de vida.\n- A afirmação \"mais limpa\" depende dos indicadores usados.\n- Medições de incerteza e critérios de custo, água, resíduos e integração são essenciais para qualquer conclusão.\n\n{figure_block}\n\nLimitação: a análise de múltiplos critérios usa um perfil de referência público e comparável, não uma única métrica dominante.\n""".strip()
 
 
 def write_article_outputs(summary_file: str | Path, output_dir: str | Path, figures: list[str] | None = None) -> tuple[Path, Path]:
