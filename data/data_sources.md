@@ -13,6 +13,12 @@ carries a `source_id` that maps to an entry below.
 > from the source families below; tightening each cell to a single primary citation is
 > tracked in [`../ROADMAP.md`](../ROADMAP.md) item 1. Ranges are deliberately wide so
 > that Monte Carlo propagation reflects genuine uncertainty rather than false precision.
+>
+> The profile covers ten technologies: the original five (nuclear, onshore/offshore wind,
+> rooftop/utility solar) plus hydro, geothermal, biomass, gas with CCS and biomass with
+> CCS (BECCS). For the added five, lifecycle carbon is from IPCC AR5 (including the
+> net-negative BECCS value); their non-carbon metrics are literature-informed proxy
+> central values with wide ranges, pending per-cell sourcing.
 
 ## Schema
 
@@ -44,7 +50,7 @@ that class of error impossible to commit unnoticed.
 | `unece_lca` | UNECE, *Life Cycle Assessment of Electricity Generation Options* | Water use, waste persistence | 2022 | Used for water and waste-persistence indices. |
 | `luderer_land` | Luderer et al. (2019) / land-use LCA syntheses | Land use per energy (m²/MWh) | 2022 | Direct footprint, per delivered energy. |
 | `pehl_material` | Pehl et al. (2017), *Nature Energy*; IEA critical-minerals syntheses | Per-energy material intensity index | 2019 | Relative index normalised across technologies. |
-| `iea_proj` | IEA *Projected Costs of Generating Electricity* and project trackers | Construction time (years) | 2023 | Typical site-to-commissioning durations. |
+| `iea_proj` | IEA *Projected Costs of Generating Electricity* and project trackers | Construction time, and LCOE/financing where not in Lazard (hydro, gas-CCS, BECCS) | 2023 | Typical site-to-commissioning durations and projected costs. |
 | `eia_cf` | US EIA capacity-factor tables | Capacity factor (fraction) | 2023 | Fleet/representative averages. |
 | `nrel_grid` | NREL grid-integration studies | Grid-integration index (0–1) | 2023 | Qualitative dispatchability score; higher is easier to integrate. |
 | `lazard_v17` | Lazard *Levelized Cost of Energy* v17.0 | LCOE ($/MWh), financing risk | 2024 | Unsubsidized ranges; financing-risk index derived from capex/schedule profile. |

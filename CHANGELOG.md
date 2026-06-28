@@ -22,6 +22,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - **Structured output.** `energy_cleanliness.reporting` emits a versioned
   `reports/multimetric_report.json` documented by `docs/report_schema.json`.
 - **Transparency docs.** `docs/methods_note.md` and `docs/claim_to_evidence.md`.
+- **Technology expansion.** The multi-metric profile now covers ten technologies, adding
+  hydro, geothermal, biomass, gas with CCS and biomass with CCS (BECCS). Lifecycle carbon
+  for the new rows is from IPCC AR5; other metrics are literature-informed proxies. The
+  schema validator now permits negative `lifecycle_co2e` (for carbon-removal BECCS) via
+  `NEGATIVE_ALLOWED_METRICS`, while keeping all other metrics non-negative. Scenario
+  rankings updated accordingly (reliability-first now favours geothermal then nuclear).
 - **Model-risk governance.** `energy_cleanliness.model_risk` is the single source of
   truth for limitation caveats; the dashboard and every generated markdown report
   (carbon summary, multi-metric summary, region counterfactuals) now carry a

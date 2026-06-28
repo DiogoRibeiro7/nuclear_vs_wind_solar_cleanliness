@@ -54,7 +54,17 @@ EXPECTED_TECHNOLOGIES: set[str] = {
     "Wind offshore",
     "Solar PV rooftop",
     "Solar PV utility",
+    "Hydro",
+    "Geothermal",
+    "Biomass",
+    "Gas with CCS",
+    "Biomass with CCS",
 }
+
+# Metrics whose values may be negative. Lifecycle carbon can be net-negative for
+# carbon-removal technologies such as bioenergy with carbon capture (BECCS); all other
+# metrics (deaths, water, land, cost, ...) must be non-negative.
+NEGATIVE_ALLOWED_METRICS: set[str] = {"lifecycle_co2e"}
 
 
 class SchemaValidationError(ValueError):
@@ -117,10 +127,16 @@ def validate_multimetric_profile(data: pd.DataFrame) -> pd.DataFrame:
     if profile[["low", "central", "high"]].isna().to_numpy().any():
         raise SchemaValidationError("Non-numeric value in low/central/high columns.")
 
-    if (profile[["low", "central", "high"]] < 0).to_numpy().any():
-        raise SchemaValidationError("Negative low/central/high values are not allowed.")
+    non_negative = profile[~profile["metric"].isin(NEGATIVE_ALLOWED_METRICS)]
+    if (non_negative[["low", "central", "high"]] < 0).to_numpy().any():
+        raise SchemaValidationError(
+            "Negative low/central/high values are only allowed for metrics: "
+            f"{sorted(NEGATIVE_ALLOWED_METRICS)}."
+        )
 
-    ordered = (profile["low"] <= profile["central"]) & (profile["central"] <= profile["high"])
+    ordered = (profile["low"] <= profile["central"]) & (
+        profile["central"] <= profile["high"]
+    )
     if not ordered.all():
         offenders = profile.loc[~ordered, ["technology", "metric"]].to_dict("records")
         raise SchemaValidationError(f"Range must satisfy low<=central<=high. Offenders: {offenders}")

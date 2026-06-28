@@ -21,13 +21,17 @@ Long/tidy: one row per `(technology, metric)`.
 | column | type | definition |
 |---|---|---|
 | `schema_version` | string | Must equal a supported version (`1.0`). |
-| `technology` | string | One of: Nuclear, Wind onshore, Wind offshore, Solar PV rooftop, Solar PV utility. |
+| `technology` | string | One of: Nuclear, Wind onshore, Wind offshore, Solar PV rooftop, Solar PV utility, Hydro, Geothermal, Biomass, Gas with CCS, Biomass with CCS. |
 | `metric` | string | One of the metric keys below. |
 | `unit` | string | Unit of `low/central/high`. |
 | `direction` | enum | `lower_better` (cleaner = smaller) or `higher_better` (cleaner = larger). |
-| `low` | float ≥ 0 | Low end of the plausible range. |
-| `central` | float ≥ 0 | Central estimate used for point-estimate scoring. |
-| `high` | float ≥ 0 | High end of the plausible range. Must satisfy `low ≤ central ≤ high`. |
+| `low` | float | Low end of the plausible range. Non-negative except for `lifecycle_co2e`. |
+| `central` | float | Central estimate used for point-estimate scoring. |
+| `high` | float | High end of the plausible range. Must satisfy `low ≤ central ≤ high`. |
+
+> Most metrics must be non-negative. The one exception is `lifecycle_co2e`, which may be
+> negative for carbon-removal technologies (e.g. Biomass with CCS / BECCS). The validator
+> enforces this via `NEGATIVE_ALLOWED_METRICS`.
 | `year` | int | Representative year. |
 | `source_id` | string | Key into the source registry in `data/data_sources.md`. |
 | `notes` | string | Short provenance note. |

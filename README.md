@@ -189,8 +189,11 @@ explicit `low/central/high` uncertainty range per `(technology, metric)`. Scorin
 - propagates uncertainty via `triangular(low, central, high)` Monte Carlo and reports
   rank-stability diagnostics.
 
-There is no universal winner: the leader flips with the policy intent — reliability-first
-favours nuclear, while cost-first and emissions-first favour wind.
+The profile covers ten technologies — nuclear, onshore/offshore wind, rooftop/utility
+solar, hydro, geothermal, biomass, gas with CCS and biomass with CCS (BECCS, whose
+lifecycle carbon is net-negative). There is no universal winner: the leader flips with
+the policy intent — reliability-first favours dispatchable sources (geothermal, nuclear),
+while cost-first and emissions-first favour wind, solar and geothermal.
 
 ## Interpretation note
 

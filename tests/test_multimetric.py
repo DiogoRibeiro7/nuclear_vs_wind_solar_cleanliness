@@ -18,6 +18,7 @@ from energy_cleanliness.cleanliness_index import (
     weighted_cleanliness_score,
 )
 from energy_cleanliness.multimetric import (
+    EXPECTED_TECHNOLOGIES,
     METRIC_UNITS,
     SchemaValidationError,
     higher_is_better_set,
@@ -40,9 +41,17 @@ FIXTURE_TINY = Path(__file__).resolve().parent / "fixtures" / "multimetric_tiny.
 def test_reference_profile_validates() -> None:
     profile = load_multimetric_profile(REFERENCE)
     # Every expected technology carries every known metric exactly once.
-    assert len(profile) == 5 * len(METRIC_UNITS)
+    assert len(profile) == len(EXPECTED_TECHNOLOGIES) * len(METRIC_UNITS)
     assert (profile["low"] <= profile["central"]).all()
     assert (profile["central"] <= profile["high"]).all()
+
+
+def test_beccs_has_net_negative_carbon() -> None:
+    profile = load_multimetric_profile(REFERENCE)
+    beccs = profile[
+        (profile["technology"] == "Biomass with CCS") & (profile["metric"] == "lifecycle_co2e")
+    ]
+    assert float(beccs["central"].iloc[0]) < 0  # carbon-removal technology
 
 
 def _valid_rows() -> pd.DataFrame:
@@ -155,7 +164,7 @@ def test_scenarios_define_all_metrics() -> None:
         assert set(weights) == set(METRIC_UNITS)
 
 
-def test_reliability_scenario_favors_nuclear() -> None:
+def test_reliability_scenario_favors_dispatchable() -> None:
     profile = load_multimetric_profile(REFERENCE)
     wide = to_wide(profile, value="central")
     higher = higher_is_better_set(profile)
@@ -163,7 +172,12 @@ def test_reliability_scenario_favors_nuclear() -> None:
         wide, metrics=list(METRIC_UNITS), weights=get_scenario("high_reliability_first"),
         higher_is_better=higher,
     )
-    assert scores.iloc[0]["technology"] == "Nuclear"
+    ranking = list(scores["technology"])
+    dispatchable = {"Geothermal", "Nuclear", "Hydro", "Gas with CCS", "Biomass"}
+    # A dispatchable source leads, and nuclear outranks the variable renewables.
+    assert ranking[0] in dispatchable
+    assert ranking.index("Nuclear") < ranking.index("Wind onshore")
+    assert ranking.index("Nuclear") < ranking.index("Solar PV utility")
 
 
 def test_cost_scenario_does_not_favor_nuclear() -> None:
@@ -174,8 +188,11 @@ def test_cost_scenario_does_not_favor_nuclear() -> None:
         wide, metrics=list(METRIC_UNITS), weights=get_scenario("low_cost_first"),
         higher_is_better=higher,
     )
-    # Cost-first should rank Nuclear last given its high LCOE and financing risk.
-    assert scores.iloc[-1]["technology"] == "Nuclear"
+    ranking = list(scores["technology"])
+    # Cost-first should not favour Nuclear: the cheap renewables lead, nuclear ranks low.
+    assert ranking[0] != "Nuclear"
+    assert ranking.index("Wind onshore") < ranking.index("Nuclear")
+    assert ranking.index("Nuclear") >= len(ranking) // 2
 
 
 def test_emissions_scenario_favors_wind_over_nuclear() -> None:

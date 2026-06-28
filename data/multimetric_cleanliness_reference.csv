@@ -59,3 +59,63 @@ schema_version,technology,metric,unit,direction,low,central,high,year,source_id,
 1.0,Solar PV utility,grid_integration,index_0_1,higher_better,0.40,0.50,0.62,2023,nrel_grid,Utility-scale and variable; needs storage.
 1.0,Solar PV utility,levelized_cost,usd_mwh,lower_better,29,61,92,2024,lazard_v17,Lazard LCOE v17 utility-scale solar.
 1.0,Solar PV utility,financing_risk,index_0_1,lower_better,0.35,0.50,0.65,2024,lazard_v17,Mature but exposed to merchant prices.
+1.0,Hydro,lifecycle_co2e,gco2e_kwh,lower_better,5,24,150,2014,ipcc_ar5,IPCC AR5 median; extreme tropical-reservoir tail excluded above ~150.
+1.0,Hydro,direct_deaths,deaths_per_twh,lower_better,0.02,0.04,1.3,2021,owid_deaths,Low typical rate with a rare catastrophic dam-failure tail.
+1.0,Hydro,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.001,0.005,2021,owid_deaths,Negligible operational air pollution.
+1.0,Hydro,waste_persistence,index_0_15,lower_better,0.3,0.6,1.2,2022,unece_lca,Sediment and concrete; low persistence.
+1.0,Hydro,water_use,m3_mwh,lower_better,1.0,17,90,2022,unece_lca,Reservoir evaporative losses; highly site-dependent.
+1.0,Hydro,land_use,m2_mwh,lower_better,1.0,14,150,2022,luderer_land,Reservoir flooding; very site-dependent.
+1.0,Hydro,material_intensity,index_rel,lower_better,0.6,1.0,1.8,2019,pehl_material,Concrete-heavy but long-lived per energy.
+1.0,Hydro,construction_time,years,lower_better,4,7,12,2023,iea_proj,Large dams take many years.
+1.0,Hydro,capacity_factor,fraction,higher_better,0.30,0.42,0.55,2023,eia_cf,Hydrology-limited capacity factor.
+1.0,Hydro,grid_integration,index_0_1,higher_better,0.75,0.88,0.95,2023,nrel_grid,Dispatchable with storage and fast ramping.
+1.0,Hydro,levelized_cost,usd_mwh,lower_better,40,70,150,2023,iea_proj,Wide range by site and scale.
+1.0,Hydro,financing_risk,index_0_1,lower_better,0.45,0.55,0.70,2023,iea_proj,High up-front capex and long build.
+1.0,Geothermal,lifecycle_co2e,gco2e_kwh,lower_better,6,38,79,2014,ipcc_ar5,IPCC AR5 median and range.
+1.0,Geothermal,direct_deaths,deaths_per_twh,lower_better,0.0,0.02,0.06,2021,owid_deaths,Low occupational death rate.
+1.0,Geothermal,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.005,0.02,2021,owid_deaths,Minor H2S emissions at some sites.
+1.0,Geothermal,waste_persistence,index_0_15,lower_better,0.5,1.0,2.0,2022,unece_lca,Brine and mineral scaling.
+1.0,Geothermal,water_use,m3_mwh,lower_better,0.5,2.0,8.0,2022,unece_lca,Mostly reinjected with some makeup water.
+1.0,Geothermal,land_use,m2_mwh,lower_better,0.2,0.6,1.5,2022,luderer_land,Compact surface footprint.
+1.0,Geothermal,material_intensity,index_rel,lower_better,0.6,1.0,1.6,2019,pehl_material,Well drilling and plant materials.
+1.0,Geothermal,construction_time,years,lower_better,2,3.5,6,2023,iea_proj,Includes drilling and exploration.
+1.0,Geothermal,capacity_factor,fraction,higher_better,0.65,0.78,0.90,2023,eia_cf,Baseload-capable capacity factor.
+1.0,Geothermal,grid_integration,index_0_1,higher_better,0.75,0.85,0.92,2023,nrel_grid,Dispatchable baseload.
+1.0,Geothermal,levelized_cost,usd_mwh,lower_better,60,85,120,2024,lazard_v17,Lazard LCOE v17 geothermal.
+1.0,Geothermal,financing_risk,index_0_1,lower_better,0.45,0.58,0.72,2024,lazard_v17,Resource and exploration risk.
+1.0,Biomass,lifecycle_co2e,gco2e_kwh,lower_better,130,230,420,2014,ipcc_ar5,IPCC AR5 dedicated biomass median and range.
+1.0,Biomass,direct_deaths,deaths_per_twh,lower_better,0.02,0.05,0.15,2021,owid_deaths,Harvesting and supply-chain accidents.
+1.0,Biomass,air_pollution_deaths,deaths_per_twh,lower_better,0.05,0.15,0.40,2021,owid_deaths,Combustion particulates raise air-pollution deaths.
+1.0,Biomass,waste_persistence,index_0_15,lower_better,0.4,0.8,1.5,2022,unece_lca,Combustion ash.
+1.0,Biomass,water_use,m3_mwh,lower_better,2,20,80,2022,unece_lca,Feedstock irrigation and cooling.
+1.0,Biomass,land_use,m2_mwh,lower_better,5,40,150,2022,luderer_land,Large land area to grow fuel.
+1.0,Biomass,material_intensity,index_rel,lower_better,0.5,0.9,1.5,2019,pehl_material,Plant materials per energy.
+1.0,Biomass,construction_time,years,lower_better,1.5,2.5,4,2023,iea_proj,Conventional combustion plant.
+1.0,Biomass,capacity_factor,fraction,higher_better,0.50,0.65,0.85,2023,eia_cf,Dispatchable with fuel supply.
+1.0,Biomass,grid_integration,index_0_1,higher_better,0.70,0.82,0.90,2023,nrel_grid,Dispatchable thermal generation.
+1.0,Biomass,levelized_cost,usd_mwh,lower_better,90,120,170,2024,lazard_v17,Lazard LCOE v17 biomass range.
+1.0,Biomass,financing_risk,index_0_1,lower_better,0.45,0.55,0.70,2024,lazard_v17,Fuel-supply and policy risk.
+1.0,Gas with CCS,lifecycle_co2e,gco2e_kwh,lower_better,90,170,370,2014,ipcc_ar5,IPCC AR5 gas combined cycle with CCS.
+1.0,Gas with CCS,direct_deaths,deaths_per_twh,lower_better,0.01,0.03,0.08,2021,owid_deaths,Gas extraction and plant accidents.
+1.0,Gas with CCS,air_pollution_deaths,deaths_per_twh,lower_better,0.01,0.03,0.10,2021,owid_deaths,Lower than unabated gas but nonzero.
+1.0,Gas with CCS,waste_persistence,index_0_15,lower_better,0.5,1.0,2.0,2022,unece_lca,Captured CO2 storage and spent solvents.
+1.0,Gas with CCS,water_use,m3_mwh,lower_better,2,6,20,2022,unece_lca,Capture energy penalty raises water use.
+1.0,Gas with CCS,land_use,m2_mwh,lower_better,0.3,0.8,2.0,2022,luderer_land,Plant plus storage footprint.
+1.0,Gas with CCS,material_intensity,index_rel,lower_better,0.8,1.3,2.2,2019,pehl_material,Capture plant adds materials.
+1.0,Gas with CCS,construction_time,years,lower_better,2.5,3.5,5,2023,iea_proj,Combined cycle plus capture.
+1.0,Gas with CCS,capacity_factor,fraction,higher_better,0.50,0.70,0.90,2023,eia_cf,Dispatchable baseload-capable.
+1.0,Gas with CCS,grid_integration,index_0_1,higher_better,0.75,0.85,0.92,2023,nrel_grid,Dispatchable thermal generation.
+1.0,Gas with CCS,levelized_cost,usd_mwh,lower_better,130,175,250,2023,iea_proj,CCS raises cost over unabated gas.
+1.0,Gas with CCS,financing_risk,index_0_1,lower_better,0.55,0.68,0.82,2023,iea_proj,Capture technology and policy risk.
+1.0,Biomass with CCS,lifecycle_co2e,gco2e_kwh,lower_better,-1200,-700,-100,2014,ipcc_ar5,Net-negative lifecycle CO2 from bioenergy with carbon capture.
+1.0,Biomass with CCS,direct_deaths,deaths_per_twh,lower_better,0.02,0.05,0.15,2021,owid_deaths,Biomass supply chain plus plant.
+1.0,Biomass with CCS,air_pollution_deaths,deaths_per_twh,lower_better,0.04,0.12,0.35,2021,owid_deaths,Combustion particulates partly abated.
+1.0,Biomass with CCS,waste_persistence,index_0_15,lower_better,0.5,1.2,2.5,2022,unece_lca,Ash plus stored CO2 and solvents.
+1.0,Biomass with CCS,water_use,m3_mwh,lower_better,3,30,120,2022,unece_lca,Feedstock plus capture energy penalty.
+1.0,Biomass with CCS,land_use,m2_mwh,lower_better,6,45,160,2022,luderer_land,Large feedstock land area.
+1.0,Biomass with CCS,material_intensity,index_rel,lower_better,0.7,1.2,2.2,2019,pehl_material,Biomass plant plus capture materials.
+1.0,Biomass with CCS,construction_time,years,lower_better,2.5,3.5,6,2023,iea_proj,Combustion plant plus capture.
+1.0,Biomass with CCS,capacity_factor,fraction,higher_better,0.45,0.62,0.85,2023,eia_cf,Dispatchable with fuel supply.
+1.0,Biomass with CCS,grid_integration,index_0_1,higher_better,0.70,0.82,0.90,2023,nrel_grid,Dispatchable thermal generation.
+1.0,Biomass with CCS,levelized_cost,usd_mwh,lower_better,150,220,350,2023,iea_proj,Immature; high cost with capture.
+1.0,Biomass with CCS,financing_risk,index_0_1,lower_better,0.60,0.75,0.90,2023,iea_proj,Immature technology and policy dependence.

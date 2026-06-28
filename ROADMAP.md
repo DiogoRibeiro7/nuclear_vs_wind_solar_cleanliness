@@ -27,7 +27,7 @@ Legend: `[x]` done, `[~]` partially done, `[ ]` not started.
 - [x] Add a claim-to-evidence map linking conclusion statements to exact source rows and report sections. *(`docs/claim_to_evidence.md`.)*
 
 ## 5) Analysis expansion (Next quarter)
-- [ ] Add additional technologies (hydro, gas with CCS, geothermal, biomass with/without CCS).
+- [x] Add additional technologies (hydro, gas with CCS, geothermal, biomass with/without CCS). *(Now 10 technologies in the multi-metric profile; BECCS carries net-negative lifecycle carbon, supported via `NEGATIVE_ALLOWED_METRICS`.)*
 - [ ] Extend lifecycle and non-carbon metrics by geography, grid context, and deployment year.
 - [ ] Add region-aware financing and risk modeling (policy regime, interest-rate bands, sovereign risk).
 - [x] Generalize Portugal counterfactual into a config-driven multi-region scenario runner. *(`energy_cleanliness.regions`, configs under `data/regions/`, `scripts/run_region_scenarios.py`; `portugal.py` is now a thin wrapper.)*
