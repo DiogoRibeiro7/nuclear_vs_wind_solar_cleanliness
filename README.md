@@ -94,6 +94,7 @@ poetry install
 
 ## Documentation
 
+- **[`REPORT.md`](REPORT.md) — the synthesized findings (start here).**
 - [`DATA_DICTIONARY.md`](DATA_DICTIONARY.md) — canonical metric definitions and schema versions.
 - [`data/data_sources.md`](data/data_sources.md) — provenance, units, year and uncertainty per source.
 - [`docs/methods_note.md`](docs/methods_note.md) — one-page methods summary.

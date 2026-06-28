@@ -6,6 +6,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **`REPORT.md`** — a synthesized, figure-referenced writeup of the full analysis (Q1
+  carbon, Q2 multi-metric, Q3 context) with the actual computed numbers and a decision map.
 - **Data foundation.** `data/data_sources.md` (provenance, units, year, uncertainty per
   source) and repo-level `DATA_DICTIONARY.md` (metric definitions and schema versions).
 - **Schema validation.** `energy_cleanliness.multimetric` loads the multi-metric profile
