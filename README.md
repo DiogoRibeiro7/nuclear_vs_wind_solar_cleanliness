@@ -167,11 +167,20 @@ it computes the marginal carbon a clean build avoids = grid intensity displaced 
 technology's lifecycle intensity. New nuclear avoids ~359 gCO2/kWh in Germany's grid but
 only ~44 in France's already-clean grid, and the benefit shrinks as grids decarbonise.
 
+## Regenerate everything
+
+```bash
+python scripts/run_all.py   # runs every analysis script and rewrites reports/
+```
+
 ## Run tests
 
 ```bash
 pytest
 ```
+
+The suite includes end-to-end smoke tests (`tests/test_scripts_smoke.py`) that run each
+analysis script and assert its primary outputs, plus a `lint` job in CI (`ruff check`).
 
 ## Data sources
 

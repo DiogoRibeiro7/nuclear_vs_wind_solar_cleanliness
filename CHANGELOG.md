@@ -65,6 +65,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - **CI.** `.github/workflows/ci.yml` runs the test suite and regenerates report
   artifacts with fixed seeds on every push and pull request.
 
+### Quality
+- **Lint-clean + enforced.** Removed an unused import and configured ruff (E402 ignored in
+  `scripts/`, which intentionally set `sys.path` before importing); CI now has a `lint` job.
+- **Orchestrator + smoke tests.** `scripts/run_all.py` regenerates every artifact in one
+  command; `tests/test_scripts_smoke.py` runs each analysis script end-to-end and asserts
+  its primary outputs.
+
 ### Fixed
 - `data/multimetric_cleanliness_reference.csv` previously had one more value per row than
   header columns, so pandas silently shifted `technology` into the index and
