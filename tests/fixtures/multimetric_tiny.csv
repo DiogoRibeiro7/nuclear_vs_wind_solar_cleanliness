@@ -1,0 +1,5 @@
+schema_version,technology,metric,unit,direction,low,central,high,year,source_id,notes
+1.0,Nuclear,lifecycle_co2e,gco2e_kwh,lower_better,3.7,12,110,2014,ipcc_ar5,fixture
+1.0,Nuclear,capacity_factor,fraction,higher_better,0.80,0.90,0.93,2023,eia_cf,fixture
+1.0,Wind onshore,lifecycle_co2e,gco2e_kwh,lower_better,7,11,56,2014,ipcc_ar5,fixture
+1.0,Wind onshore,capacity_factor,fraction,higher_better,0.25,0.35,0.50,2023,eia_cf,fixture

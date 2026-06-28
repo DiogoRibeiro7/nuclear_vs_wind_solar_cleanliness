@@ -58,7 +58,9 @@ def weighted_cleanliness_score(
     higher_is_better: Iterable[str] = (),
 ) -> pd.DataFrame:
     """Compute user-weighted cleanliness scores from multiple metrics."""
-    normalized = normalize_cleanliness_matrix(data, metrics, method=method, higher_is_better=higher_is_better)
+    normalized = normalize_cleanliness_matrix(
+        data, metrics, method=method, higher_is_better=higher_is_better
+    )
     if weights is None:
         weight_value = 1.0 / len(normalized.columns)
         weights = {column: weight_value for column in normalized.columns}
@@ -84,7 +86,7 @@ def pareto_frontier(
     higher_is_better: Iterable[str] = (),
 ) -> pd.DataFrame:
     """Return rows on the Pareto frontier for the selected metrics."""
-    scores = pd.to_numeric(data[metrics], errors="coerce")
+    scores = data[list(metrics)].apply(pd.to_numeric, errors="coerce")
     higher_set = set(higher_is_better)
     frontier_indices = []
     for i, row in scores.iterrows():
@@ -112,6 +114,112 @@ def pareto_frontier(
     return data.loc[frontier_indices].copy().reset_index(drop=True)
 
 
+def _normalize_weights(weights: dict[str, float], metrics: list[str]) -> "np.ndarray":
+    """Return a weight vector aligned to ``metrics``, renormalised to sum to one."""
+    raw = np.array([float(weights.get(metric, 0.0)) for metric in metrics], dtype=float)
+    if (raw < 0).any():
+        raise ValueError("Weights must be non-negative.")
+    total = raw.sum()
+    if total <= 0:
+        raise ValueError("Weights must sum to a positive value.")
+    return raw / total
+
+
+def monte_carlo_cleanliness(
+    profile: pd.DataFrame,
+    weights: dict[str, float] | None = None,
+    samples: int = 2_000,
+    seed: int = 42,
+    top_k: tuple[int, ...] = (1, 2, 3),
+) -> dict[str, pd.DataFrame]:
+    """Propagate per-metric uncertainty through the weighted cleanliness score.
+
+    ``profile`` is a validated long dataframe (see :mod:`energy_cleanliness.multimetric`)
+    with ``low/central/high`` columns and a ``direction`` per metric. Each Monte Carlo
+    draw samples every cell from ``triangular(low, central, high)``, min-max normalises
+    each metric within the draw into a cleaner-is-higher score, applies the weights and
+    sums. Returns score summary statistics and rank-stability diagnostics.
+    """
+    if samples <= 0:
+        raise ValueError("samples must be a positive integer")
+
+    technologies = sorted(profile["technology"].unique())
+    metrics = sorted(profile["metric"].unique())
+    higher = {
+        metric
+        for metric, direction in profile.drop_duplicates("metric")
+        .set_index("metric")["direction"]
+        .items()
+        if direction == "higher_better"
+    }
+
+    n_tech, n_metric = len(technologies), len(metrics)
+    indexed = profile.set_index(["technology", "metric"])
+    low = np.empty((n_tech, n_metric))
+    central = np.empty((n_tech, n_metric))
+    high = np.empty((n_tech, n_metric))
+    for t, tech in enumerate(technologies):
+        for m, metric in enumerate(metrics):
+            row = indexed.loc[(tech, metric)]
+            low[t, m] = float(row["low"])
+            central[t, m] = float(row["central"])
+            high[t, m] = float(row["high"])
+
+    rng = np.random.default_rng(seed)
+    sampled = np.empty((samples, n_tech, n_metric))
+    for t in range(n_tech):
+        for m in range(n_metric):
+            lo, mode, hi = low[t, m], central[t, m], high[t, m]
+            if hi <= lo:
+                sampled[:, t, m] = mode
+            else:
+                sampled[:, t, m] = rng.triangular(lo, min(max(mode, lo), hi), hi, size=samples)
+
+    # Min-max normalise per (draw, metric) across technologies, cleaner-is-higher.
+    mn = sampled.min(axis=1, keepdims=True)
+    mx = sampled.max(axis=1, keepdims=True)
+    span = mx - mn
+    with np.errstate(invalid="ignore", divide="ignore"):
+        norm = np.where(span == 0, 0.5, (sampled - mn) / span)
+    lower_mask = np.array([metric not in higher for metric in metrics])
+    cleaner = norm.copy()
+    cleaner[:, :, lower_mask] = np.where(
+        span[:, :, lower_mask] == 0, 0.5, 1.0 - norm[:, :, lower_mask]
+    )
+
+    if weights is None:
+        weights = dict.fromkeys(metrics, 1.0)
+    weight_vector = _normalize_weights(weights, metrics)
+    scores = cleaner @ weight_vector  # (samples, n_tech)
+
+    # Ranks: rank 1 = highest score within each draw.
+    order = np.argsort(-scores, axis=1)
+    ranks = np.empty_like(order)
+    rows = np.arange(samples)[:, None]
+    ranks[rows, order] = np.arange(n_tech)[None, :] + 1  # 1-based rank per technology
+
+    summary = pd.DataFrame(
+        {
+            "technology": technologies,
+            "mean_score": scores.mean(axis=0),
+            "std_score": scores.std(axis=0, ddof=0),
+            "ci_low": np.quantile(scores, 0.025, axis=0),
+            "ci_high": np.quantile(scores, 0.975, axis=0),
+        }
+    ).sort_values("mean_score", ascending=False).reset_index(drop=True)
+
+    stability = {"technology": technologies, "mean_rank": ranks.mean(axis=0)}
+    for k in top_k:
+        stability[f"p_top{k}"] = (ranks <= k).mean(axis=0)
+    rank_stability = (
+        pd.DataFrame(stability)
+        .sort_values("p_top1" if "p_top1" in stability else "mean_rank", ascending=False)
+        .reset_index(drop=True)
+    )
+
+    return {"score_summary": summary, "rank_stability": rank_stability}
+
+
 def sensitivity_analysis(
     data: pd.DataFrame,
     metrics: Iterable[str],
@@ -125,7 +233,9 @@ def sensitivity_analysis(
     technologies = data["technology"].tolist()
     samples_matrix = []
 
-    normalized = normalize_cleanliness_matrix(data, metrics, method=method, higher_is_better=higher_is_better)
+    normalized = normalize_cleanliness_matrix(
+        data, metrics, method=method, higher_is_better=higher_is_better
+    )
     metric_columns = list(normalized.columns)
     n_metrics = len(metric_columns)
 

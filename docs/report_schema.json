@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/energy-cleanliness/report_schema.json",
+  "title": "Multi-metric cleanliness report",
+  "type": "object",
+  "required": [
+    "report_schema_version",
+    "dataset_schema_version",
+    "method",
+    "pareto_frontier",
+    "best_by_metric",
+    "scenarios"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "report_schema_version": { "type": "string", "const": "1.0" },
+    "dataset_schema_version": { "type": "string" },
+    "method": {
+      "type": "object",
+      "required": ["normalization", "uncertainty", "samples", "seed"],
+      "properties": {
+        "normalization": { "type": "string" },
+        "uncertainty": { "type": "string" },
+        "samples": { "type": "integer", "minimum": 1 },
+        "seed": { "type": "integer" }
+      }
+    },
+    "pareto_frontier": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "best_by_metric": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "scenarios": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["weights", "score_summary", "rank_stability"],
+        "properties": {
+          "weights": {
+            "type": "object",
+            "additionalProperties": { "type": "number" }
+          },
+          "score_summary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["technology", "mean_score", "std_score", "ci_low", "ci_high"],
+              "properties": {
+                "technology": { "type": "string" },
+                "mean_score": { "type": "number" },
+                "std_score": { "type": "number" },
+                "ci_low": { "type": "number" },
+                "ci_high": { "type": "number" }
+              }
+            }
+          },
+          "rank_stability": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["technology", "mean_rank"],
+              "properties": {
+                "technology": { "type": "string" },
+                "mean_rank": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

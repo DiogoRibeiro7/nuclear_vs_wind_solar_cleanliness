@@ -1,6 +1,61 @@
-technology,direct_deaths_per_twh,air_pollution_deaths_per_twh,waste_persistence,water_use,land_use,material_intensity,construction_time,capacity_factor,grid_integration_score,levelized_cost,financing_risk
-Nuclear,0.022,0.007,12,14,1.8,1.4,6.5,0.90,0.78,108,55,0.56
-Wind onshore,0.030,0.022,0.8,0.15,0.42,0.55,2.0,0.33,0.74,55,42,0.42
-Wind offshore,0.029,0.021,0.8,0.20,0.50,0.65,3.2,0.45,0.68,95,46,0.46
-Solar PV rooftop,0.065,0.030,0.75,0.04,0.31,0.62,2.0,0.22,0.54,110,60,0.60
-Solar PV utility,0.055,0.028,0.85,0.05,0.25,0.58,1.6,0.29,0.58,95,56,0.56
+schema_version,technology,metric,unit,direction,low,central,high,year,source_id,notes
+1.0,Nuclear,lifecycle_co2e,gco2e_kwh,lower_better,3.7,12,110,2014,ipcc_ar5,IPCC AR5 Annex III lifecycle median and range.
+1.0,Nuclear,direct_deaths,deaths_per_twh,lower_better,0.01,0.03,0.07,2021,owid_deaths,Accident plus occupational deaths per TWh.
+1.0,Nuclear,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.007,0.02,2021,owid_deaths,Near-zero combustion air pollution.
+1.0,Nuclear,waste_persistence,index_0_15,lower_better,8,12,15,2022,unece_lca,Long-lived radioactive waste persistence index.
+1.0,Nuclear,water_use,m3_mwh,lower_better,1.0,2.5,14,2022,unece_lca,Consumptive central; high reflects once-through cooling withdrawal.
+1.0,Nuclear,land_use,m2_mwh,lower_better,0.3,1.0,1.8,2022,luderer_land,Direct plus fuel-cycle land footprint.
+1.0,Nuclear,material_intensity,index_rel,lower_better,0.8,1.4,2.0,2019,pehl_material,Per-energy material index for steel/concrete/critical minerals.
+1.0,Nuclear,construction_time,years,lower_better,5,7.5,12,2023,iea_proj,Typical reactor construction duration.
+1.0,Nuclear,capacity_factor,fraction,higher_better,0.80,0.90,0.93,2023,eia_cf,Fleet average capacity factor.
+1.0,Nuclear,grid_integration,index_0_1,higher_better,0.70,0.85,0.92,2023,nrel_grid,Dispatchable baseload integration score.
+1.0,Nuclear,levelized_cost,usd_mwh,lower_better,141,182,221,2024,lazard_v17,Lazard LCOE v17 unsubsidized nuclear.
+1.0,Nuclear,financing_risk,index_0_1,lower_better,0.45,0.60,0.75,2024,lazard_v17,High up-front capex and schedule risk.
+1.0,Wind onshore,lifecycle_co2e,gco2e_kwh,lower_better,7,11,56,2014,ipcc_ar5,IPCC AR5 Annex III lifecycle median and range.
+1.0,Wind onshore,direct_deaths,deaths_per_twh,lower_better,0.02,0.04,0.12,2021,owid_deaths,Construction and maintenance accidents per TWh.
+1.0,Wind onshore,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.002,0.01,2021,owid_deaths,Negligible operational air pollution.
+1.0,Wind onshore,waste_persistence,index_0_15,lower_better,0.5,0.8,1.5,2022,unece_lca,Blade landfill persistence; inert but bulky.
+1.0,Wind onshore,water_use,m3_mwh,lower_better,0.0,0.1,0.3,2022,unece_lca,Minimal operational water use.
+1.0,Wind onshore,land_use,m2_mwh,lower_better,0.2,0.5,1.5,2022,luderer_land,Direct turbine footprint excluding inter-turbine land.
+1.0,Wind onshore,material_intensity,index_rel,lower_better,0.4,0.55,0.8,2019,pehl_material,Per-energy material index.
+1.0,Wind onshore,construction_time,years,lower_better,1.0,2.0,3.0,2023,iea_proj,Site to commissioning.
+1.0,Wind onshore,capacity_factor,fraction,higher_better,0.25,0.35,0.50,2023,eia_cf,Resource-dependent capacity factor.
+1.0,Wind onshore,grid_integration,index_0_1,higher_better,0.40,0.55,0.70,2023,nrel_grid,Variable but partly dispatchable with storage.
+1.0,Wind onshore,levelized_cost,usd_mwh,lower_better,27,50,73,2024,lazard_v17,Lazard LCOE v17 unsubsidized onshore wind.
+1.0,Wind onshore,financing_risk,index_0_1,lower_better,0.30,0.40,0.55,2024,lazard_v17,Mature technology with moderate risk.
+1.0,Wind offshore,lifecycle_co2e,gco2e_kwh,lower_better,8,12,35,2014,ipcc_ar5,IPCC AR5 Annex III lifecycle median and range.
+1.0,Wind offshore,direct_deaths,deaths_per_twh,lower_better,0.02,0.04,0.12,2021,owid_deaths,Offshore construction accidents per TWh.
+1.0,Wind offshore,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.002,0.01,2021,owid_deaths,Negligible operational air pollution.
+1.0,Wind offshore,waste_persistence,index_0_15,lower_better,0.5,0.8,1.5,2022,unece_lca,Blade landfill persistence; inert but bulky.
+1.0,Wind offshore,water_use,m3_mwh,lower_better,0.0,0.15,0.3,2022,unece_lca,Minimal operational water use.
+1.0,Wind offshore,land_use,m2_mwh,lower_better,0.2,0.5,1.5,2022,luderer_land,Onshore grid and port footprint per energy.
+1.0,Wind offshore,material_intensity,index_rel,lower_better,0.5,0.65,1.0,2019,pehl_material,Higher foundation and cabling material than onshore.
+1.0,Wind offshore,construction_time,years,lower_better,2.0,3.2,5.0,2023,iea_proj,Longer marine construction.
+1.0,Wind offshore,capacity_factor,fraction,higher_better,0.35,0.45,0.55,2023,eia_cf,Higher and steadier offshore winds.
+1.0,Wind offshore,grid_integration,index_0_1,higher_better,0.45,0.60,0.72,2023,nrel_grid,Steadier than onshore but still variable.
+1.0,Wind offshore,levelized_cost,usd_mwh,lower_better,74,106,139,2024,lazard_v17,Lazard LCOE v17 unsubsidized offshore wind.
+1.0,Wind offshore,financing_risk,index_0_1,lower_better,0.40,0.50,0.65,2024,lazard_v17,Larger projects with higher execution risk.
+1.0,Solar PV rooftop,lifecycle_co2e,gco2e_kwh,lower_better,26,41,60,2014,ipcc_ar5,IPCC AR5 Annex III lifecycle median and range.
+1.0,Solar PV rooftop,direct_deaths,deaths_per_twh,lower_better,0.01,0.02,0.05,2021,owid_deaths,Installation falls dominate solar deaths.
+1.0,Solar PV rooftop,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.003,0.01,2021,owid_deaths,Manufacturing-stage emissions only.
+1.0,Solar PV rooftop,waste_persistence,index_0_15,lower_better,0.5,0.75,1.5,2022,unece_lca,Panel end-of-life persistence; recyclable.
+1.0,Solar PV rooftop,water_use,m3_mwh,lower_better,0.0,0.1,0.3,2022,unece_lca,Cleaning water only.
+1.0,Solar PV rooftop,land_use,m2_mwh,lower_better,0.1,0.3,0.6,2022,luderer_land,Uses existing roof area.
+1.0,Solar PV rooftop,material_intensity,index_rel,lower_better,0.45,0.62,0.9,2019,pehl_material,Per-energy module and mounting materials.
+1.0,Solar PV rooftop,construction_time,years,lower_better,0.5,1.5,2.5,2023,iea_proj,Permitting-limited install time.
+1.0,Solar PV rooftop,capacity_factor,fraction,higher_better,0.12,0.18,0.25,2023,eia_cf,Roof orientation limits yield.
+1.0,Solar PV rooftop,grid_integration,index_0_1,higher_better,0.35,0.45,0.58,2023,nrel_grid,Distributed and variable; needs storage.
+1.0,Solar PV rooftop,levelized_cost,usd_mwh,lower_better,117,150,282,2024,lazard_v17,Lazard LCOE v17 residential rooftop.
+1.0,Solar PV rooftop,financing_risk,index_0_1,lower_better,0.35,0.45,0.60,2024,lazard_v17,Distributed financing that is policy-sensitive.
+1.0,Solar PV utility,lifecycle_co2e,gco2e_kwh,lower_better,18,48,180,2014,ipcc_ar5,IPCC AR5 Annex III lifecycle median and range.
+1.0,Solar PV utility,direct_deaths,deaths_per_twh,lower_better,0.01,0.02,0.05,2021,owid_deaths,Lower fall risk than rooftop.
+1.0,Solar PV utility,air_pollution_deaths,deaths_per_twh,lower_better,0.0,0.003,0.01,2021,owid_deaths,Manufacturing-stage emissions only.
+1.0,Solar PV utility,waste_persistence,index_0_15,lower_better,0.5,0.85,1.5,2022,unece_lca,Panel end-of-life persistence; recyclable.
+1.0,Solar PV utility,water_use,m3_mwh,lower_better,0.1,0.4,0.8,2022,unece_lca,Panel washing in arid sites.
+1.0,Solar PV utility,land_use,m2_mwh,lower_better,0.15,0.25,0.6,2022,luderer_land,Largest direct land footprint per energy.
+1.0,Solar PV utility,material_intensity,index_rel,lower_better,0.42,0.58,0.85,2019,pehl_material,Per-energy module and structure materials.
+1.0,Solar PV utility,construction_time,years,lower_better,0.5,1.6,2.5,2023,iea_proj,Fast modular deployment.
+1.0,Solar PV utility,capacity_factor,fraction,higher_better,0.18,0.25,0.33,2023,eia_cf,Tracking systems raise yield.
+1.0,Solar PV utility,grid_integration,index_0_1,higher_better,0.40,0.50,0.62,2023,nrel_grid,Utility-scale and variable; needs storage.
+1.0,Solar PV utility,levelized_cost,usd_mwh,lower_better,29,61,92,2024,lazard_v17,Lazard LCOE v17 utility-scale solar.
+1.0,Solar PV utility,financing_risk,index_0_1,lower_better,0.35,0.50,0.65,2024,lazard_v17,Mature but exposed to merchant prices.
