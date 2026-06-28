@@ -5,5 +5,9 @@ __pycache__/
 reports/*.png
 reports/*.csv
 reports/*.md
+reports/*.html
+reports/*.json
+reports/figures/
+reports/generated/
 !reports/.gitkeep
 .DS_Store

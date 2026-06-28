@@ -92,6 +92,15 @@ Or with Poetry:
 poetry install
 ```
 
+## Documentation
+
+- [`DATA_DICTIONARY.md`](DATA_DICTIONARY.md) — canonical metric definitions and schema versions.
+- [`data/data_sources.md`](data/data_sources.md) — provenance, units, year and uncertainty per source.
+- [`docs/methods_note.md`](docs/methods_note.md) — one-page methods summary.
+- [`docs/claim_to_evidence.md`](docs/claim_to_evidence.md) — every conclusion linked to its source rows and report sections.
+- [`docs/report_schema.json`](docs/report_schema.json) — JSON Schema for the structured multi-metric report.
+- [`CHANGELOG.md`](CHANGELOG.md) — data, schema and scoring-logic changes.
+
 ## Data ingestion tasks
 
 ```bash
@@ -126,9 +135,21 @@ reports/bootstrap_ci.csv
 python scripts/run_analysis_suite.py
 python scripts/run_multimetric_analysis.py
 python scripts/run_portugal_scenario.py
+python scripts/run_region_scenarios.py
 python scripts/run_claim_classifier.py
 python scripts/generate_social_article.py
+python scripts/build_dashboard.py
 ```
+
+`build_dashboard.py` reads `reports/multimetric_report.json` and writes a self-contained
+`reports/dashboard.html` (scenario tabs, ranking tables with confidence intervals,
+embedded figures, and a model-risk section) — no server or extra dependency required.
+
+`run_region_scenarios.py` runs config-driven counterfactuals over every region config in
+`data/regions/` (Portugal, France, Germany ship by default) and writes
+`reports/region_counterfactuals.{csv,md}`. Each config asks: if one source is retired and
+its energy is absorbed by an alternative, how do annual lifecycle emissions (ktCO2e/year)
+change? Add a new region by dropping a JSON file into `data/regions/`.
 
 ## Run tests
 
@@ -150,10 +171,26 @@ Recommended extensions:
 
 Additional outputs for the wider interpretation run:
 
-- `reports/cleanliness_scores.csv`
-- `reports/cleanliness_sensitivity.csv`
-- `reports/cleanliness_frontier.csv`
-- `reports/multimetric_summary.md`
+- `reports/cleanliness_scores.csv` — balanced-scenario point scores.
+- `reports/cleanliness_sensitivity.csv` — Monte Carlo score summary (mean, std, 95% CI).
+- `reports/cleanliness_rank_stability.csv` — P(rank 1) and P(top-k) per technology.
+- `reports/cleanliness_frontier.csv` — Pareto frontier.
+- `reports/multimetric_summary.md` — per-scenario rankings with confidence intervals.
+- `reports/multimetric_report.json` — versioned structured report (see `docs/report_schema.json`).
+
+## Multi-metric model
+
+The multi-metric profile is a validated long/tidy dataset with a `schema_version` and an
+explicit `low/central/high` uncertainty range per `(technology, metric)`. Scoring:
+
+- min-max normalises each metric to a cleaner-is-higher score (direction declared in the data);
+- weights metrics by a policy scenario (`balanced`, `low_emissions_first`, `low_cost_first`,
+  `high_reliability_first`);
+- propagates uncertainty via `triangular(low, central, high)` Monte Carlo and reports
+  rank-stability diagnostics.
+
+There is no universal winner: the leader flips with the policy intent — reliability-first
+favours nuclear, while cost-first and emissions-first favour wind.
 
 ## Interpretation note
 

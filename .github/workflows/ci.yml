@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-and-artifacts:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run test suite
+        run: pytest -q
+
+      - name: Regenerate report artifacts with fixed seeds
+        run: |
+          python scripts/run_multimetric_analysis.py
+
+      - name: Build static dashboard from the report
+        run: |
+          python scripts/build_dashboard.py
+          test -f reports/dashboard.html
+
+      - name: Run multi-region counterfactual scenarios
+        run: |
+          python scripts/run_region_scenarios.py
+          test -f reports/region_counterfactuals.csv
+
+      - name: Validate deterministic JSON report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, "src")
+          from energy_cleanliness.reporting import validate_report
+
+          report_path = Path("reports/multimetric_report.json")
+          report = json.loads(report_path.read_text(encoding="utf-8"))
+          validate_report(report)
+
+          method = report["method"]
+          assert method["seed"] == 42, method
+          assert method["samples"] == 2000, method
+          assert set(report["scenarios"]) == {
+              "balanced",
+              "low_emissions_first",
+              "low_cost_first",
+              "high_reliability_first",
+          }, sorted(report["scenarios"])
+          print("Report schema and determinism constraints OK")
+          PY
+
+      - name: Confirm report is reproducible (no diff on re-run)
+        run: |
+          cp reports/multimetric_report.json /tmp/report_first.json
+          python scripts/run_multimetric_analysis.py
+          diff /tmp/report_first.json reports/multimetric_report.json
