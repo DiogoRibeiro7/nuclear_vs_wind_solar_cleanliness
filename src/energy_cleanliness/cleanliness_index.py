@@ -131,6 +131,7 @@ def monte_carlo_cleanliness(
     samples: int = 2_000,
     seed: int = 42,
     top_k: tuple[int, ...] = (1, 2, 3),
+    return_draws: bool = False,
 ) -> dict[str, pd.DataFrame]:
     """Propagate per-metric uncertainty through the weighted cleanliness score.
 
@@ -139,6 +140,10 @@ def monte_carlo_cleanliness(
     draw samples every cell from ``triangular(low, central, high)``, min-max normalises
     each metric within the draw into a cleaner-is-higher score, applies the weights and
     sums. Returns score summary statistics and rank-stability diagnostics.
+
+    When ``return_draws`` is true the result also includes ``score_draws`` and
+    ``rank_draws`` -- ``samples`` x technology DataFrames of the raw per-draw scores and
+    1-based ranks -- enabling distributional and rank-stability analysis downstream.
     """
     if samples <= 0:
         raise ValueError("samples must be a positive integer")
@@ -217,7 +222,11 @@ def monte_carlo_cleanliness(
         .reset_index(drop=True)
     )
 
-    return {"score_summary": summary, "rank_stability": rank_stability}
+    result = {"score_summary": summary, "rank_stability": rank_stability}
+    if return_draws:
+        result["score_draws"] = pd.DataFrame(scores, columns=technologies)
+        result["rank_draws"] = pd.DataFrame(ranks, columns=technologies)
+    return result
 
 
 def sensitivity_analysis(

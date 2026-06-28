@@ -148,6 +148,17 @@ def test_rank_stability_probabilities_are_bounded_and_consistent() -> None:
     assert (stability["p_top2"] <= stability["p_top3"] + 1e-12).all()
 
 
+def test_monte_carlo_return_draws_shapes() -> None:
+    profile = load_multimetric_profile(REFERENCE)
+    out = monte_carlo_cleanliness(profile, samples=200, seed=5, return_draws=True)
+    techs = sorted(profile["technology"].unique())
+    assert out["score_draws"].shape == (200, len(techs))
+    assert out["rank_draws"].shape == (200, len(techs))
+    # Each draw is a valid permutation of ranks 1..n.
+    first = sorted(out["rank_draws"].iloc[0].tolist())
+    assert first == list(range(1, len(techs) + 1))
+
+
 def test_monte_carlo_runs_on_partial_fixture() -> None:
     # The fixture intentionally omits technologies/metrics; MC must still run on it.
     profile = pd.read_csv(FIXTURE_TINY)
