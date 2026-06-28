@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from energy_cleanliness.analysis import (
@@ -48,7 +49,11 @@ def test_probability_matrix_is_bounded() -> None:
     data = load_lifecycle_data(DATA_PATH)
     samples = simulate_uncertainty(data, draws=1_000, seed=7)
     matrix = estimate_pairwise_probabilities(samples)
-    values = matrix.stack().to_numpy(dtype=float)
+    # The diagonal (self-comparison) is NaN by design; check only the off-diagonal
+    # probabilities, independent of how pandas .stack() treats NaN across versions.
+    values = matrix.to_numpy(dtype=float)
+    values = values[~np.isnan(values)]
+    assert values.size > 0
     assert ((values >= 0) & (values <= 1)).all()
 
 

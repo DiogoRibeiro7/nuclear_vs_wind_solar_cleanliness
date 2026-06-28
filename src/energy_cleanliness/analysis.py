@@ -256,6 +256,27 @@ def bootstrap_confidence_intervals(
     return pd.DataFrame.from_records(records).sort_values("technology").reset_index(drop=True)
 
 
+def _markdown_table(frame: pd.DataFrame) -> str:
+    """Render a dataframe as a GitHub-flavoured markdown table.
+
+    Avoids ``DataFrame.to_markdown``, which requires the optional ``tabulate`` package.
+    """
+    columns = [str(c) for c in frame.columns]
+
+    def cell(value: object) -> str:
+        if isinstance(value, float):
+            return f"{value:g}"
+        return str(value).replace("|", "\\|")
+
+    header = "| " + " | ".join(columns) + " |"
+    separator = "| " + " | ".join("---" for _ in columns) + " |"
+    rows = [
+        "| " + " | ".join(cell(value) for value in record) + " |"
+        for record in frame.itertuples(index=False, name=None)
+    ]
+    return "\n".join([header, separator, *rows])
+
+
 def build_markdown_summary(
     data: pd.DataFrame,
     median_comparison: pd.DataFrame,
@@ -319,7 +340,7 @@ A defensible statement is:
 
 ## Median comparison table
 
-{median_comparison.to_markdown(index=False)}{proxy_warning}
+{_markdown_table(median_comparison)}{proxy_warning}
 
 {_carbon_model_risk()}"""
 
