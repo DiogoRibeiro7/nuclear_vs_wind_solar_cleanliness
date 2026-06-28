@@ -1,0 +1,36 @@
+name: Interpretation review
+description: Challenge or refine a conclusion, framing, or claim made by the project.
+title: "[interpretation] "
+labels:
+  - type:discussion
+  - status:triage
+  - priority:medium
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to question how a result is interpreted or worded. See
+        `docs/claim_to_evidence.md` for how conclusions map to evidence and
+        `docs/methods_note.md` for the method.
+  - type: input
+    id: claim
+    attributes:
+      label: Which conclusion or claim?
+      description: Reference the claim id (C1-C9) or quote the statement.
+      placeholder: "C6 / 'reliability-first favours nuclear'"
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: Explain why the interpretation may be wrong, overstated, or unclear.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Cite data rows, report sections, or sources that support your view.
+    validations:
+      required: false

@@ -28,6 +28,7 @@ from energy_cleanliness.multimetric import (  # noqa: E402
     load_multimetric_profile,
     to_wide,
 )
+from energy_cleanliness.model_risk import model_risk_markdown  # noqa: E402
 from energy_cleanliness.reporting import build_report, write_report  # noqa: E402
 from energy_cleanliness.scenarios import SCENARIOS  # noqa: E402
 
@@ -136,6 +137,7 @@ def _write_markdown(frontier, best_by_metric, scenario_outputs) -> None:
             )
         lines.append("")
 
+    lines.append(model_risk_markdown(context="multimetric", level=2))
     (REPORTS_DIR / "multimetric_summary.md").write_text("\n".join(lines), encoding="utf-8")
 
 

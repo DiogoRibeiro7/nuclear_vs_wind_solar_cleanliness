@@ -22,6 +22,11 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - **Structured output.** `energy_cleanliness.reporting` emits a versioned
   `reports/multimetric_report.json` documented by `docs/report_schema.json`.
 - **Transparency docs.** `docs/methods_note.md` and `docs/claim_to_evidence.md`.
+- **Model-risk governance.** `energy_cleanliness.model_risk` is the single source of
+  truth for limitation caveats; the dashboard and every generated markdown report
+  (carbon summary, multi-metric summary, region counterfactuals) now carry a
+  context-appropriate "Model risk and limitations" section. Added issue templates for
+  metric updates, source corrections and interpretation review.
 - **Multi-region runner.** `energy_cleanliness.regions` generalises the Portugal-only
   counterfactual into a config-driven runner over any number of region configs under
   `data/regions/` (Portugal, France, Germany ship by default). Total generation is

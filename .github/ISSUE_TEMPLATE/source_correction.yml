@@ -1,0 +1,35 @@
+name: Source correction
+description: Report an incorrect, outdated, or missing data source / citation.
+title: "[source] "
+labels:
+  - type:data
+  - status:triage
+  - priority:medium
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when a `source_id`, provenance note, or citation in
+        `data/data_sources.md` (or a region config `source` field) is wrong or missing.
+  - type: input
+    id: location
+    attributes:
+      label: Where is the source issue?
+      description: File and source_id / region affected.
+      placeholder: "data/data_sources.md / lazard_v17"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: Describe the incorrect, outdated, or missing citation.
+    validations:
+      required: true
+  - type: textarea
+    id: correct_source
+    attributes:
+      label: Correct source
+      description: Provide the authoritative reference (title, publisher, year, URL).
+    validations:
+      required: true

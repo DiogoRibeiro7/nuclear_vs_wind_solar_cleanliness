@@ -1,0 +1,48 @@
+name: Metric update
+description: Propose a change to a metric value, unit, range, or direction.
+title: "[metric] "
+labels:
+  - type:data
+  - status:triage
+  - priority:medium
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to update a value in `data/multimetric_cleanliness_reference.csv`
+        or a region config. See `DATA_DICTIONARY.md` for definitions and
+        `data/data_sources.md` for provenance rules.
+  - type: input
+    id: metric
+    attributes:
+      label: Metric and technology
+      description: Which (technology, metric) row(s) does this affect?
+      placeholder: "Nuclear / lifecycle_co2e"
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change
+      description: Give the current and proposed low/central/high (and unit/direction if changing).
+      placeholder: |
+        current: low=3.7, central=12, high=110
+        proposed: low=4.0, central=13, high=110
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source / justification
+      description: Cite the source (with year and table/figure) supporting the new value.
+      placeholder: "IPCC AR5 WG3 Annex III, Table A.III.2"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Keeps low <= central <= high
+        - label: Source added/updated in `data/data_sources.md`
+        - label: CHANGELOG entry will be added

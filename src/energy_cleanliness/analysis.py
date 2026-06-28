@@ -320,4 +320,12 @@ A defensible statement is:
 ## Median comparison table
 
 {median_comparison.to_markdown(index=False)}{proxy_warning}
-"""
+
+{_carbon_model_risk()}"""
+
+
+def _carbon_model_risk() -> str:
+    """Return the standard model-risk section for the carbon-only report."""
+    from energy_cleanliness.model_risk import model_risk_markdown
+
+    return model_risk_markdown(context="carbon", level=2)

@@ -14,6 +14,7 @@ SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
+from energy_cleanliness.model_risk import model_risk_markdown  # noqa: E402
 from energy_cleanliness.regions import run_region_scenarios  # noqa: E402
 
 REGIONS_DIR = PROJECT_ROOT / "data" / "regions"
@@ -44,6 +45,7 @@ def main() -> None:
             f"({worst['delta_ktco2e']:+,.0f} ktCO2e, {worst['pct_change']:+.1f}%)."
         )
         lines.append("")
+    lines.append(model_risk_markdown(context="region", level=2))
     (REPORTS_DIR / "region_counterfactuals.md").write_text("\n".join(lines), encoding="utf-8")
 
     print("Wrote reports/region_counterfactuals.csv and reports/region_counterfactuals.md")

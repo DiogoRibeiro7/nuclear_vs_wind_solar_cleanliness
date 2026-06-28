@@ -13,6 +13,8 @@ import base64
 import html
 from pathlib import Path
 
+from energy_cleanliness.model_risk import GENERAL_RISKS, MULTIMETRIC_RISKS
+
 SCENARIO_BLURBS = {
     "balanced": "Equal weight on every metric.",
     "low_emissions_first": "Heavily weights lifecycle carbon and air-pollution deaths.",
@@ -65,19 +67,8 @@ function showScenario(id, btn){
 }
 """
 
-MODEL_RISKS = [
-    "Carbon values are sourced from IPCC AR5 and cost from Lazard v17; the remaining "
-    "non-carbon metrics are literature-informed central estimates with wide ranges, not "
-    "a per-cell systematic review.",
-    "The triangular(low, central, high) distribution is a transparent proxy for "
-    "uncertainty, not the true literature distribution.",
-    "Index-style metrics (waste persistence, material intensity, grid integration) are "
-    "relative scores, not absolute physical quantities.",
-    "Scenario weights encode a policy intent, not an objective truth. The leader changes "
-    "with the weighting, which is the central finding.",
-    "Min-max normalization is sensitive to the set of technologies compared; adding or "
-    "removing a technology can shift every normalized score.",
-]
+# Shared, single-source-of-truth caveats (see energy_cleanliness.model_risk).
+MODEL_RISKS = GENERAL_RISKS + MULTIMETRIC_RISKS
 
 
 def _encode_png(path: str | Path) -> str:

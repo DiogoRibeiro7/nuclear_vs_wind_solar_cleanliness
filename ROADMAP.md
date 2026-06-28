@@ -33,9 +33,9 @@ Legend: `[x]` done, `[~]` partially done, `[ ]` not started.
 - [x] Generalize Portugal counterfactual into a config-driven multi-region scenario runner. *(`energy_cleanliness.regions`, configs under `data/regions/`, `scripts/run_region_scenarios.py`; `portugal.py` is now a thin wrapper.)*
 
 ## 6) Community and quality gates (Ongoing)
-- Add issue templates for metric updates, source corrections, and interpretation review.
-- Add a standard model-risk section to every public report.
-- Maintain a changelog entry for each scoring-logic or dataset update.
+- [x] Add issue templates for metric updates, source corrections, and interpretation review. *(`.github/ISSUE_TEMPLATE/`.)*
+- [x] Add a standard model-risk section to every public report. *(`energy_cleanliness.model_risk`, used by the dashboard and every markdown report.)*
+- [x] Maintain a changelog entry for each scoring-logic or dataset update. *(`CHANGELOG.md`.)*
 
 ## Delivery order
 - Foundation first (`Data foundation`) to avoid silent metric errors.
