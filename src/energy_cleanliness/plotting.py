@@ -56,6 +56,100 @@ def plot_lifecycle_ranges(data: pd.DataFrame, output_path: str | Path) -> Path:
     return destination
 
 
+def plot_scenario_scores(
+    score_summary: pd.DataFrame,
+    output_path: str | Path,
+    title: str = "Cleanliness score with 95% credible interval",
+) -> Path:
+    """Plot per-technology Monte Carlo scores with 95% CI error bars.
+
+    ``score_summary`` is the ``score_summary`` frame returned by
+    :func:`energy_cleanliness.cleanliness_index.monte_carlo_cleanliness`.
+    """
+    required = {"technology", "mean_score", "ci_low", "ci_high"}
+    missing = required.difference(score_summary.columns)
+    if missing:
+        raise ValueError(f"Missing required columns: {sorted(missing)}")
+
+    plot_data = score_summary.sort_values("mean_score", ascending=True).reset_index(drop=True)
+    y_positions = range(len(plot_data))
+    lower_error = (plot_data["mean_score"] - plot_data["ci_low"]).clip(lower=0)
+    upper_error = (plot_data["ci_high"] - plot_data["mean_score"]).clip(lower=0)
+
+    figure, axis = plt.subplots(figsize=(9, 5))
+    axis.barh(list(y_positions), plot_data["mean_score"], color="#4c72b0", alpha=0.55)
+    axis.errorbar(
+        plot_data["mean_score"],
+        list(y_positions),
+        xerr=[lower_error, upper_error],
+        fmt="o",
+        color="#1f1f1f",
+        capsize=4,
+    )
+    axis.set_yticks(list(y_positions))
+    axis.set_yticklabels(plot_data["technology"])
+    axis.set_xlabel("Cleanliness score (0–1, higher is cleaner)")
+    axis.set_xlim(0, 1)
+    axis.set_title(title)
+    axis.grid(axis="x", alpha=0.3)
+    figure.tight_layout()
+
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    figure.savefig(destination, dpi=160)
+    plt.close(figure)
+    return destination
+
+
+def plot_rank_stability(
+    rank_stability: pd.DataFrame,
+    output_path: str | Path,
+    title: str = "Rank stability across Monte Carlo draws",
+) -> Path:
+    """Plot P(rank 1) and P(top 3) per technology as grouped horizontal bars.
+
+    ``rank_stability`` is the ``rank_stability`` frame returned by
+    :func:`energy_cleanliness.cleanliness_index.monte_carlo_cleanliness`.
+    """
+    if "technology" not in rank_stability.columns or "p_top1" not in rank_stability.columns:
+        raise ValueError("rank_stability must contain 'technology' and 'p_top1' columns.")
+
+    plot_data = rank_stability.sort_values("p_top1", ascending=True).reset_index(drop=True)
+    positions = range(len(plot_data))
+    height = 0.4
+
+    figure, axis = plt.subplots(figsize=(9, 5))
+    axis.barh(
+        [p + height / 2 for p in positions],
+        plot_data["p_top1"],
+        height=height,
+        label="P(rank 1)",
+        color="#dd8452",
+    )
+    if "p_top3" in plot_data.columns:
+        axis.barh(
+            [p - height / 2 for p in positions],
+            plot_data["p_top3"],
+            height=height,
+            label="P(top 3)",
+            color="#55a868",
+        )
+    axis.set_yticks(list(positions))
+    axis.set_yticklabels(plot_data["technology"])
+    axis.set_xlabel("Probability across draws")
+    axis.set_xlim(0, 1)
+    axis.set_title(title)
+    axis.legend(loc="lower right")
+    axis.grid(axis="x", alpha=0.3)
+    figure.tight_layout()
+
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    figure.savefig(destination, dpi=160)
+    plt.close(figure)
+    return destination
+
+
 def plot_probability_matrix(probability_matrix: pd.DataFrame, output_path: str | Path) -> Path:
     """Create a probability matrix plot for P(row technology < column technology)."""
     matrix = probability_matrix.copy()
