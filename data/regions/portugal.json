@@ -11,5 +11,10 @@
     "Biomass": 3.1
   },
   "retire_source": "Gas",
-  "replacements": ["Wind", "Solar", "Nuclear", "Hydro"]
+  "replacements": ["Wind", "Solar", "Nuclear", "Hydro"],
+  "financing": {
+    "base_real_rate": 0.03,
+    "sovereign_risk_premium": 0.008,
+    "policy_risk_premium": 0.007
+  }
 }

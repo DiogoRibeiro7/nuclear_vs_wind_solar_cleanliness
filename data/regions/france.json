@@ -12,5 +12,10 @@
     "Coal": 2.0
   },
   "retire_source": "Nuclear",
-  "replacements": ["Wind", "Solar", "Hydro", "Gas"]
+  "replacements": ["Wind", "Solar", "Hydro", "Gas"],
+  "financing": {
+    "base_real_rate": 0.028,
+    "sovereign_risk_premium": 0.005,
+    "policy_risk_premium": 0.005
+  }
 }

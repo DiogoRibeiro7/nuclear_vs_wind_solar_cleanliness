@@ -66,6 +66,17 @@ source (TWh), each with a `source` field citing its origin:
 | France | 2023 | RTE French Annual Electricity Review 2023 | Nuclear ~320, hydro ~58, wind 50.8, solar 21.6, gas 30.0, coal ~2 TWh. |
 | Germany | 2023 | Fraunhofer ISE public net generation 2023 | Wind 139.8, PV 59.9, lignite 77.6, hard coal 36.1, gas 45.8, biomass ~42, hydro ~19, nuclear 6.7 TWh. Lignite and hard coal are modelled as separate sources and retired together. |
 
+### Financing parameters
+
+Each region config carries an optional `financing` block (`base_real_rate`,
+`sovereign_risk_premium`, `policy_risk_premium`) that sets its real WACC. The values
+shipped for Portugal/France/Germany (≈3.5–4.5%) are illustrative OECD-range estimates,
+not sourced country figures. Techno-economic inputs in
+`energy_cleanliness.financing.DEFAULT_TECHNO_ECONOMICS` (capex, O&M, fuel, capacity
+factor, lifetime) are representative midpoints from public syntheses (NREL ATB, IEA),
+used to show the *direction and magnitude* of cost-of-capital effects rather than exact
+project costs.
+
 Lifecycle emission factors for the region runner are IPCC AR5 medians, except lignite
 (~1100 gCO2e/kWh, from lifecycle-assessment literature, since AR5's headline coal median
 of 820 reflects hard coal). See

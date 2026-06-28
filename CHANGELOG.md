@@ -22,6 +22,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - **Structured output.** `energy_cleanliness.reporting` emits a versioned
   `reports/multimetric_report.json` documented by `docs/report_schema.json`.
 - **Transparency docs.** `docs/methods_note.md` and `docs/claim_to_evidence.md`.
+- **Region-aware financing.** `energy_cleanliness.financing` models levelized cost as a
+  function of the cost of capital: capital-intensive low-carbon technologies (nuclear,
+  hydro, offshore wind) are penalised most by a high WACC, while fuel-heavy gas is barely
+  affected. Region configs gain an optional `financing` block (base rate + sovereign and
+  policy risk premia) setting their WACC. `scripts/run_financing_analysis.py` writes
+  `reports/financing_lcoe.{csv,md}` and `financing_wacc_sensitivity.csv`. Covered by
+  `tests/test_financing.py`.
 - **Technology expansion.** The multi-metric profile now covers ten technologies, adding
   hydro, geothermal, biomass, gas with CCS and biomass with CCS (BECCS). Lifecycle carbon
   for the new rows is from IPCC AR5; other metrics are literature-informed proxies. The

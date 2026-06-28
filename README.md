@@ -136,6 +136,7 @@ python scripts/run_analysis_suite.py
 python scripts/run_multimetric_analysis.py
 python scripts/run_portugal_scenario.py
 python scripts/run_region_scenarios.py
+python scripts/run_financing_analysis.py
 python scripts/run_claim_classifier.py
 python scripts/generate_social_article.py
 python scripts/build_dashboard.py
@@ -150,6 +151,13 @@ embedded figures, and a model-risk section) — no server or extra dependency re
 `reports/region_counterfactuals.{csv,md}`. Each config asks: if one source is retired and
 its energy is absorbed by an alternative, how do annual lifecycle emissions (ktCO2e/year)
 change? Add a new region by dropping a JSON file into `data/regions/`.
+
+`run_financing_analysis.py` models how the **cost of capital** reshapes levelized cost
+(`reports/financing_lcoe.{csv,md}`). Capital-intensive low-carbon options (nuclear, hydro,
+offshore wind) are penalised most by a high WACC, while fuel-heavy gas is barely affected,
+so a region's financing environment changes which clean option is cheapest. Each region
+config carries an optional `financing` block (base rate + sovereign and policy risk
+premia) that sets its WACC.
 
 ## Run tests
 

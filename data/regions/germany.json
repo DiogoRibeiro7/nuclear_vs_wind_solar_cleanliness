@@ -14,5 +14,10 @@
     "Nuclear": 6.7
   },
   "retire_source": ["Lignite", "Coal"],
-  "replacements": ["Wind", "Solar", "Nuclear", "Gas"]
+  "replacements": ["Wind", "Solar", "Nuclear", "Gas"],
+  "financing": {
+    "base_real_rate": 0.027,
+    "sovereign_risk_premium": 0.003,
+    "policy_risk_premium": 0.005
+  }
 }

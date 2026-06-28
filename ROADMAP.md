@@ -29,7 +29,7 @@ Legend: `[x]` done, `[~]` partially done, `[ ]` not started.
 ## 5) Analysis expansion (Next quarter)
 - [x] Add additional technologies (hydro, gas with CCS, geothermal, biomass with/without CCS). *(Now 10 technologies in the multi-metric profile; BECCS carries net-negative lifecycle carbon, supported via `NEGATIVE_ALLOWED_METRICS`.)*
 - [ ] Extend lifecycle and non-carbon metrics by geography, grid context, and deployment year.
-- [ ] Add region-aware financing and risk modeling (policy regime, interest-rate bands, sovereign risk).
+- [x] Add region-aware financing and risk modeling (policy regime, interest-rate bands, sovereign risk). *(`energy_cleanliness.financing`; per-region WACC from config `financing` blocks; `scripts/run_financing_analysis.py`.)*
 - [x] Generalize Portugal counterfactual into a config-driven multi-region scenario runner. *(`energy_cleanliness.regions`, configs under `data/regions/`, `scripts/run_region_scenarios.py`; `portugal.py` is now a thin wrapper.)*
 
 ## 6) Community and quality gates (Ongoing)

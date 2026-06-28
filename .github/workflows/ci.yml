@@ -41,6 +41,11 @@ jobs:
           python scripts/run_region_scenarios.py
           test -f reports/region_counterfactuals.csv
 
+      - name: Run region-aware financing analysis
+        run: |
+          python scripts/run_financing_analysis.py
+          test -f reports/financing_lcoe.csv
+
       - name: Validate deterministic JSON report
         run: |
           python - <<'PY'
