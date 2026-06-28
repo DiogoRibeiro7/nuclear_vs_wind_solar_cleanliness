@@ -5,8 +5,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import matplotlib.pyplot as plt
+import matplotlib
 import pandas as pd
+
+# These helpers only ever save figures to disk, so use the non-interactive Agg backend.
+# This avoids depending on a GUI toolkit (Tk/Qt), which makes the functions robust in
+# headless CI and on machines with a broken interactive backend. force=False preserves an
+# already-active backend (e.g. a notebook's inline backend), so interactive use is unaffected.
+matplotlib.use("Agg", force=False)
+
+import matplotlib.pyplot as plt  # noqa: E402 - backend must be selected before importing pyplot
 
 
 def plot_lifecycle_ranges(data: pd.DataFrame, output_path: str | Path) -> Path:
