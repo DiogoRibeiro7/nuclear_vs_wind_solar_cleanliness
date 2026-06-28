@@ -137,6 +137,7 @@ python scripts/run_multimetric_analysis.py
 python scripts/run_portugal_scenario.py
 python scripts/run_region_scenarios.py
 python scripts/run_financing_analysis.py
+python scripts/run_geography_analysis.py
 python scripts/run_claim_classifier.py
 python scripts/generate_social_article.py
 python scripts/build_dashboard.py
@@ -158,6 +159,13 @@ offshore wind) are penalised most by a high WACC, while fuel-heavy gas is barely
 so a region's financing environment changes which clean option is cheapest. Each region
 config carries an optional `financing` block (base rate + sovereign and policy risk
 premia) that sets its WACC.
+
+`run_geography_analysis.py` adds the **geography / grid-context / deployment-year**
+dimension (`reports/grid_intensity_trajectory.{csv,md}`, `reports/marginal_abatement.csv`).
+Using a sourced region×year grid carbon-intensity dataset (`data/grid_carbon_intensity.csv`),
+it computes the marginal carbon a clean build avoids = grid intensity displaced − the
+technology's lifecycle intensity. New nuclear avoids ~359 gCO2/kWh in Germany's grid but
+only ~44 in France's already-clean grid, and the benefit shrinks as grids decarbonise.
 
 ## Run tests
 

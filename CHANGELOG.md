@@ -22,6 +22,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - **Structured output.** `energy_cleanliness.reporting` emits a versioned
   `reports/multimetric_report.json` documented by `docs/report_schema.json`.
 - **Transparency docs.** `docs/methods_note.md` and `docs/claim_to_evidence.md`.
+- **Geography / grid-context / deployment-year.** `energy_cleanliness.geography` plus a
+  sourced region×year grid carbon-intensity dataset (`data/grid_carbon_intensity.csv`)
+  compute the marginal carbon a clean build avoids = grid intensity displaced − the
+  technology's lifecycle intensity. The benefit depends on geography (France's clean grid
+  vs Germany's), grid context, and deployment year (grids decarbonise over time).
+  `scripts/run_geography_analysis.py` writes `reports/grid_intensity_trajectory.{csv,md}`
+  and `reports/marginal_abatement.csv`. Covered by `tests/test_geography.py`.
 - **Region-aware financing.** `energy_cleanliness.financing` models levelized cost as a
   function of the cost of capital: capital-intensive low-carbon technologies (nuclear,
   hydro, offshore wind) are penalised most by a high WACC, while fuel-heavy gas is barely

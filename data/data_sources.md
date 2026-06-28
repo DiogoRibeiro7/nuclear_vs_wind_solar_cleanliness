@@ -66,6 +66,14 @@ source (TWh), each with a `source` field citing its origin:
 | France | 2023 | RTE French Annual Electricity Review 2023 | Nuclear ~320, hydro ~58, wind 50.8, solar 21.6, gas 30.0, coal ~2 TWh. |
 | Germany | 2023 | Fraunhofer ISE public net generation 2023 | Wind 139.8, PV 59.9, lignite 77.6, hard coal 36.1, gas 45.8, biomass ~42, hydro ~19, nuclear 6.7 TWh. Lignite and hard coal are modelled as separate sources and retired together. |
 
+### Grid carbon intensity (region × year)
+
+`grid_carbon_intensity.csv` holds operational grid carbon intensity (gCO2/kWh) for
+France, Germany, Portugal, the EU and a global average at 2015/2018/2020/2023. Values are
+Ember/EEA-consistent approximate annual averages (anchored to confirmed points such as EU
+2023 = 242 and Germany 2023 = 371 gCO2/kWh), used to show the geography/grid-context and
+deployment-year effect on marginal abatement, not as exact national accounting figures.
+
 ### Financing parameters
 
 Each region config carries an optional `financing` block (`base_real_rate`,

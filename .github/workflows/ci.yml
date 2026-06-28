@@ -46,6 +46,11 @@ jobs:
           python scripts/run_financing_analysis.py
           test -f reports/financing_lcoe.csv
 
+      - name: Run geography / grid-context analysis
+        run: |
+          python scripts/run_geography_analysis.py
+          test -f reports/marginal_abatement.csv
+
       - name: Validate deterministic JSON report
         run: |
           python - <<'PY'
