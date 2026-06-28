@@ -12,22 +12,20 @@ class ClaimClassification:
 
 
 def classify_claim(text: str) -> ClaimClassification:
-    """Classify a short claim into one of five categories."""
-    if not text or not text.strip():
-        return ClaimClassification("ambiguous because of undefined metrics", "Empty or non-informative claim.")
-    normalized = text.lower()
+    """Classify a short claim into one of five categories.
 
-    cleanliness_tokens = [
-        "cleaner",
-        "cleaner than",
-        "cleanest",
-        "clean",
-        "limpo",
-        "mais limpo",
-        "menos sujo",
-        "limpa",
-        "limpeza",
-    ]
+    Precedence (checked in order):
+    1. a defined metric or a cited source -> factual and testable;
+    2. myth/perfection framing -> misleading framing;
+    3. absolute "always/never" language -> overconfident;
+    4. comparative cleanliness without a metric -> ambiguous;
+    5. otherwise -> unsupported by cited data.
+    """
+    if not text or not text.strip():
+        return ClaimClassification(
+            "ambiguous because of undefined metrics", "Empty or non-informative claim."
+        )
+    normalized = text.lower()
 
     metric_tokens = [
         "gco2e",
@@ -37,73 +35,84 @@ def classify_claim(text: str) -> ClaimClassification:
         "gwh",
         "%",
         "percent",
-        "kg",
-        "ton",
         "deaths",
     ]
 
-    uncertainty_tokens = [
-        "myth",
-        "always better",
-        "guaranteed",
-        "no downside",
-        "one thing only",
-        "sempre melhor",
-        "sem risco",
-        "sem incerteza",
-    ]
-
-    absolute_tokens = [
-        "always",
-        "never",
-        "all",
-        "all of the",
-        "zero",
-        "all of",
-        "sem exceção",
-        "nunca",
-    ]
-
+    # Citation/reference cues. Avoid the bare word "source" since it also matches
+    # phrases like "energy source".
     source_tokens = [
         "study",
         "studies",
-        "report",
-        "source",
         "according to",
-        "segundo",
-        "de acordo",
+        "data source",
+        "cited",
+        "segundo o estudo",
+        "de acordo com",
     ]
 
-    if any(token in normalized for token in cleanliness_tokens):
-        if any(token in normalized for token in metric_tokens):
-            return ClaimClassification(
-                "factual_and_testable",
-                "Defined metric appears in text.",
-            )
-        if any(token in normalized for token in uncertainty_tokens):
-            return ClaimClassification(
-                "misleading framing",
-                "Uses framing that suppresses uncertainty and competing dimensions.",
-            )
-        if any(token in normalized for token in absolute_tokens):
-            return ClaimClassification(
-                "overconfident because uncertainty is ignored",
-                "Metric is absolute and likely overconfident.",
-            )
-        return ClaimClassification(
-            "ambiguous because of undefined metrics",
-            "Uses cleanliness framing without a precise measurable metric.",
-        )
+    # Myth / "perfect, no flaws" framing that suppresses competing dimensions.
+    misleading_tokens = [
+        "myth",
+        "mito",
+        "perfeita",
+        "perfeito",
+        "sem falhas",
+        "sem defeitos",
+        "no flaws",
+        "no downside",
+    ]
 
-    if any(token in normalized for token in source_tokens):
+    # Absolute language that collapses uncertainty.
+    absolute_tokens = [
+        "always",
+        "never",
+        "everything",
+        "every ",
+        "all of",
+        "sem exceção",
+        "sempre",
+        "nunca",
+    ]
+
+    # Comparative cleanliness ("cleaner than", "mais limpo que") with no metric.
+    comparative_clean_tokens = [
+        "cleaner",
+        "cleanest",
+        "mais limpo",
+        "mais limpa",
+        "menos sujo",
+        "more clean",
+    ]
+
+    if any(token in normalized for token in metric_tokens) or any(
+        token in normalized for token in source_tokens
+    ):
         return ClaimClassification(
             "factual_and_testable",
-            "Contains reference to source or study context.",
+            "Contains a defined metric or a cited source.",
+        )
+
+    if any(token in normalized for token in misleading_tokens):
+        return ClaimClassification(
+            "misleading framing",
+            "Uses myth or perfection framing that suppresses competing dimensions.",
+        )
+
+    if any(token in normalized for token in absolute_tokens):
+        return ClaimClassification(
+            "overconfident because uncertainty is ignored",
+            "Uses absolute always/never language that ignores uncertainty.",
+        )
+
+    if any(token in normalized for token in comparative_clean_tokens):
+        return ClaimClassification(
+            "ambiguous because of undefined metrics",
+            "Comparative cleanliness claim without a precise measurable metric.",
         )
 
     return ClaimClassification(
         "unsupported by cited data",
-        "No explicit metric and no source citation detected.",
+        "No explicit metric, source, or comparative metric detected.",
     )
 
 
