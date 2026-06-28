@@ -1,0 +1,15 @@
+{
+  "name": "Portugal",
+  "year": 2023,
+  "source": "REN (Redes Energeticas Nacionais), 2023. Domestic generation derived from REN consumption shares (renewables 31.2 TWh = 61%; non-renewable 10 TWh = 19%; remainder net imports).",
+  "notes": "Portugal has no nuclear in reality; it appears only as a hypothetical replacement candidate to compare against wind/solar/hydro for absorbing retiring gas. Domestic generation total ~41 TWh.",
+  "generation_twh": {
+    "Wind": 12.8,
+    "Hydro": 11.8,
+    "Gas": 10.0,
+    "Solar": 3.6,
+    "Biomass": 3.1
+  },
+  "retire_source": "Gas",
+  "replacements": ["Wind", "Solar", "Nuclear", "Hydro"]
+}

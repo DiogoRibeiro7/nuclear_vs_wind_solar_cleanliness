@@ -1,0 +1,18 @@
+{
+  "name": "Germany",
+  "year": 2023,
+  "source": "Fraunhofer ISE, public net electricity generation 2023: wind 139.8, PV 59.9, lignite 77.6, hard coal 36.1, gas 45.8, biomass ~42, hydro ~19, nuclear 6.7 TWh.",
+  "notes": "Mix after the April 2023 nuclear phase-out. Lignite and hard coal are modelled separately (lignite is far dirtier) and retired together. Tests which source should absorb retiring coal.",
+  "generation_twh": {
+    "Wind": 139.8,
+    "Lignite": 77.6,
+    "Coal": 36.1,
+    "Solar": 59.9,
+    "Gas": 45.8,
+    "Biomass": 42.0,
+    "Hydro": 19.0,
+    "Nuclear": 6.7
+  },
+  "retire_source": ["Lignite", "Coal"],
+  "replacements": ["Wind", "Solar", "Nuclear", "Gas"]
+}

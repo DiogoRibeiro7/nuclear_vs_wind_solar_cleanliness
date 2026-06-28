@@ -1,0 +1,16 @@
+{
+  "name": "France",
+  "year": 2023,
+  "source": "RTE French Annual Electricity Review 2023: nuclear ~320, hydro ~58, wind 50.8, solar 21.6, gas 30.0, coal ~2 TWh.",
+  "notes": "Nuclear-heavy mix. Tests replacing low-carbon nuclear with alternatives, including gas.",
+  "generation_twh": {
+    "Nuclear": 320.0,
+    "Hydro": 58.0,
+    "Wind": 50.8,
+    "Solar": 21.6,
+    "Gas": 30.0,
+    "Coal": 2.0
+  },
+  "retire_source": "Nuclear",
+  "replacements": ["Wind", "Solar", "Hydro", "Gas"]
+}
