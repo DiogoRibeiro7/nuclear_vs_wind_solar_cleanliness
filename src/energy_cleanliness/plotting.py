@@ -14,7 +14,7 @@ import pandas as pd
 # already-active backend (e.g. a notebook's inline backend), so interactive use is unaffected.
 matplotlib.use("Agg", force=False)
 
-import matplotlib.pyplot as plt  # noqa: E402 - backend must be selected before importing pyplot
+import matplotlib.pyplot as plt
 
 
 def plot_lifecycle_ranges(data: pd.DataFrame, output_path: str | Path) -> Path:

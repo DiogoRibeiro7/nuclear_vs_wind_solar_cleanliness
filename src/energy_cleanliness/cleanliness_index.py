@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import numpy as np
 import pandas as pd
@@ -114,7 +114,7 @@ def pareto_frontier(
     return data.loc[frontier_indices].copy().reset_index(drop=True)
 
 
-def _normalize_weights(weights: dict[str, float], metrics: list[str]) -> "np.ndarray":
+def _normalize_weights(weights: dict[str, float], metrics: list[str]) -> np.ndarray:
     """Return a weight vector aligned to ``metrics``, renormalised to sum to one."""
     raw = np.array([float(weights.get(metric, 0.0)) for metric in metrics], dtype=float)
     if (raw < 0).any():

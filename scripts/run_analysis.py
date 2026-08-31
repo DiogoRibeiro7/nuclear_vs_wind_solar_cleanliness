@@ -12,11 +12,11 @@ if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
 from energy_cleanliness.analysis import (
+    bootstrap_confidence_intervals,
     build_markdown_summary,
     compare_to_baseline,
     estimate_pairwise_probabilities,
     simulate_uncertainty,
-    bootstrap_confidence_intervals,
 )
 from energy_cleanliness.data import load_lifecycle_data
 

@@ -13,8 +13,8 @@ from energy_cleanliness.analysis import (
     estimate_pairwise_probabilities,
     simulate_uncertainty,
 )
-from energy_cleanliness.data import load_lifecycle_data
 from energy_cleanliness.claim_classifier import classify_claim
+from energy_cleanliness.data import load_lifecycle_data
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = PROJECT_ROOT / "data" / "lifecycle_emissions_ipcc_ar5.csv"

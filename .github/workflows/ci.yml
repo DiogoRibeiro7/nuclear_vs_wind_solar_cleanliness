@@ -14,7 +14,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install ruff
-        run: pip install ruff
+        # Pinned deliberately. This step installed whatever ruff had released that day,
+        # so an upstream change to the default rule set turned the build red with no
+        # commit behind it. Dependabot bumps this like any other dependency.
+        run: pip install ruff==0.16.5
       - name: Ruff lint
         run: ruff check src scripts tests
 

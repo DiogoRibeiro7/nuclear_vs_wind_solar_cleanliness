@@ -12,7 +12,6 @@ for extra_path in (SRC_PATH, SCRIPTS_PATH):
     if str(extra_path) not in sys.path:
         sys.path.insert(0, str(extra_path))
 
-from energy_cleanliness.article_generator import write_article_outputs
 from energy_cleanliness.analysis import (
     bootstrap_confidence_intervals,
     build_markdown_summary,
@@ -21,11 +20,11 @@ from energy_cleanliness.analysis import (
     estimate_pairwise_probabilities,
     simulate_uncertainty,
 )
+from energy_cleanliness.article_generator import write_article_outputs
 from energy_cleanliness.claim_classifier import classify_claims_batch
 from energy_cleanliness.data import load_lifecycle_data
 from energy_cleanliness.portugal import run_portugal_scenario
 from run_multimetric_analysis import run as run_multimetric_pipeline
-
 
 DATA_PATH = PROJECT_ROOT / "data" / "processed" / "lifecycle_emissions_normalized.csv"
 LEGACY_DATA_PATH = PROJECT_ROOT / "data" / "lifecycle_emissions_ipcc_ar5.csv"

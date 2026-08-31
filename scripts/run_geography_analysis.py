@@ -15,13 +15,13 @@ SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
-from energy_cleanliness.geography import (  # noqa: E402
+from energy_cleanliness.geography import (
     abatement_table,
     load_grid_intensity,
     trajectory_table,
 )
-from energy_cleanliness.model_risk import model_risk_markdown  # noqa: E402
-from energy_cleanliness.multimetric import load_multimetric_profile  # noqa: E402
+from energy_cleanliness.model_risk import model_risk_markdown
+from energy_cleanliness.multimetric import load_multimetric_profile
 
 GRID_PATH = PROJECT_ROOT / "data" / "grid_carbon_intensity.csv"
 PROFILE_PATH = PROJECT_ROOT / "data" / "multimetric_cleanliness_reference.csv"

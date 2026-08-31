@@ -57,7 +57,7 @@ def regions(data: pd.DataFrame) -> list[str]:
     return sorted(data["region"].unique())
 
 
-def grid_intensity(data: pd.DataFrame, region: str, year: int | float) -> float:
+def grid_intensity(data: pd.DataFrame, region: str, year: float) -> float:
     """Grid carbon intensity (gCO2/kWh) for a region and year.
 
     Exact-year values are returned directly; intermediate years are linearly
@@ -74,7 +74,7 @@ def grid_intensity(data: pd.DataFrame, region: str, year: int | float) -> float:
 def marginal_abatement(
     technology_lifecycle_gco2_kwh: float,
     region: str,
-    year: int | float,
+    year: float,
     data: pd.DataFrame,
 ) -> float:
     """Carbon avoided (gCO2/kWh) by displacing average grid generation with a clean tech.

@@ -17,6 +17,7 @@ from energy_cleanliness.cleanliness_index import (
     pareto_frontier,
     weighted_cleanliness_score,
 )
+from energy_cleanliness.dashboard import build_dashboard_html
 from energy_cleanliness.multimetric import (
     EXPECTED_TECHNOLOGIES,
     METRIC_UNITS,
@@ -26,7 +27,6 @@ from energy_cleanliness.multimetric import (
     to_wide,
     validate_multimetric_profile,
 )
-from energy_cleanliness.dashboard import build_dashboard_html
 from energy_cleanliness.reporting import build_report, validate_report
 from energy_cleanliness.scenarios import SCENARIOS, get_scenario
 

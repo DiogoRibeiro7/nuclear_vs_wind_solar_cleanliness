@@ -14,8 +14,8 @@ SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
-from energy_cleanliness.model_risk import model_risk_markdown  # noqa: E402
-from energy_cleanliness.regions import run_region_scenarios  # noqa: E402
+from energy_cleanliness.model_risk import model_risk_markdown
+from energy_cleanliness.regions import run_region_scenarios
 
 REGIONS_DIR = PROJECT_ROOT / "data" / "regions"
 REPORTS_DIR = PROJECT_ROOT / "reports"

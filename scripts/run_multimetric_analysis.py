@@ -16,21 +16,21 @@ SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
-from energy_cleanliness.cleanliness_index import (  # noqa: E402
+from energy_cleanliness.cleanliness_index import (
     monte_carlo_cleanliness,
     pareto_frontier,
     weighted_cleanliness_score,
 )
-from energy_cleanliness.multimetric import (  # noqa: E402
+from energy_cleanliness.model_risk import model_risk_markdown
+from energy_cleanliness.multimetric import (
     METRIC_UNITS,
     SUPPORTED_SCHEMA_VERSIONS,
     higher_is_better_set,
     load_multimetric_profile,
     to_wide,
 )
-from energy_cleanliness.model_risk import model_risk_markdown  # noqa: E402
-from energy_cleanliness.reporting import build_report, write_report  # noqa: E402
-from energy_cleanliness.scenarios import SCENARIOS  # noqa: E402
+from energy_cleanliness.reporting import build_report, write_report
+from energy_cleanliness.scenarios import SCENARIOS
 
 MULTI_METRIC_PROFILE = PROJECT_ROOT / "data" / "multimetric_cleanliness_reference.csv"
 REPORTS_DIR = PROJECT_ROOT / "reports"
@@ -81,7 +81,7 @@ def run(samples: int = SAMPLES, seed: int = SEED) -> None:
     _write_markdown(frontier, best_by_metric, scenario_outputs)
 
     report = build_report(
-        dataset_schema_version=sorted(SUPPORTED_SCHEMA_VERSIONS)[-1],
+        dataset_schema_version=max(SUPPORTED_SCHEMA_VERSIONS),
         seed=seed,
         samples=samples,
         scenarios=scenario_outputs,
