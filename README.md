@@ -236,3 +236,9 @@ This project now includes a broader cleanliness profile beyond carbon:
 - cost and financing risk.
 
 Under that wider definition there is still no universal winner. Nuclear, wind and solar are all part of the low-carbon electricity family, and which option is cleaner depends on the metric and weighting choices.
+
+## Licence
+
+Code is [MIT](LICENSE). Data, derived tables and manuscript text are
+[CC BY 4.0](LICENSE-DATA.md). Third-party source data keeps its provider's terms — see
+[`LICENSE-DATA.md`](LICENSE-DATA.md).
