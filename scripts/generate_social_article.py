@@ -11,6 +11,7 @@ if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
 from energy_cleanliness.article_generator import write_article_outputs
+
 REPORTS_DIR = PROJECT_ROOT / "reports"
 SUMMARY_PATH = PROJECTS_DIR = PROJECT_ROOT / "reports" / "summary.md"
 

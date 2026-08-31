@@ -182,6 +182,6 @@ def normalize_empirical_samples(raw: str | list[float] | float) -> list[float]:
         parsed = json.loads(text)
         if isinstance(parsed, list):
             return [float(item) for item in parsed if isinstance(item, (int, float, str))]
-    except Exception:
+    except (ValueError, TypeError):
         return []
     return []

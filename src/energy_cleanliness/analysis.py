@@ -127,7 +127,7 @@ def _parse_estimate_list(value: object) -> np.ndarray:
             parsed = json.loads(text)
             values = [float(item) for item in parsed if float(item) > 0]
             return np.asarray(values, dtype=float)
-        except Exception:
+        except (ValueError, TypeError):
             return np.array([], dtype=float)
     if ";" in text or "," in text:
         sep = ";" if ";" in text else ","

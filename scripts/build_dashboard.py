@@ -20,9 +20,9 @@ for extra_path in (SRC_PATH, SCRIPTS_PATH):
     if str(extra_path) not in sys.path:
         sys.path.insert(0, str(extra_path))
 
-from energy_cleanliness.dashboard import write_dashboard  # noqa: E402
-from energy_cleanliness.plotting import plot_rank_stability, plot_scenario_scores  # noqa: E402
-from energy_cleanliness.reporting import validate_report  # noqa: E402
+from energy_cleanliness.dashboard import write_dashboard
+from energy_cleanliness.plotting import plot_rank_stability, plot_scenario_scores
+from energy_cleanliness.reporting import validate_report
 
 REPORTS_DIR = PROJECT_ROOT / "reports"
 REPORT_PATH = REPORTS_DIR / "multimetric_report.json"

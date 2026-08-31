@@ -62,7 +62,7 @@ class FinancingEnvironment:
         return self.base_real_rate + self.sovereign_risk_premium + self.policy_risk_premium
 
     @classmethod
-    def from_dict(cls, name: str, data: dict | None) -> "FinancingEnvironment":
+    def from_dict(cls, name: str, data: dict | None) -> FinancingEnvironment:
         """Build from a region-config ``financing`` block, falling back to a default."""
         if not data:
             return cls(name, base_real_rate=0.03, sovereign_risk_premium=0.01, policy_risk_premium=0.01)
